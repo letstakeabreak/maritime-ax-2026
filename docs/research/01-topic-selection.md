@@ -88,3 +88,37 @@
 9. LCL dangerous goods responsibilities — https://shashikallada.com/2026/07/31/to-the-lcl-operator-this-is-what-youre-actually-signing-up-for-when-you-mix-dangerous-goods/
 10. 트레드링스, 선박 화재와 100Wh 면제 규정 — https://www.tradlinx.com/blog/?p=24691
 11. 마리나체인, LG CNS와 해운·물류 AI 협력 — https://www.fnnews.com/news/202607081625281417
+
+## 재검증: 기업이 안 하는 이유 (2026-10-25 추가)
+
+선정 근거로 든 "공백"을 다시 조사했다. 결과적으로 L의 전제 두 개 중 하나가 틀렸다.
+
+| 전제 | 재검증 결과 | 판정 |
+|---|---|---|
+| 포워더용 격리 적재 점검 도구가 없다 | Exis Hazcheck Workstation이 화주, 포워더, 대리점용으로 혼재 화물 격리 점검과 DG Note 생성을 이미 판매한다.[12] 상위 10대 선사 중 9곳이 Hazcheck를 쓴다고 업체가 밝힌다.[13] | **틀림** |
+| 은닉 위험물 선별은 선사, 정부 단계만 있다 | Hazcheck Detect(머스크, 하팍로이드, ONE, PIL)[14], ZIMGuard[2], WSC[3] 모두 선사 고객이다. 포워더 고객 사례는 찾지 못했다. | 맞음 |
+
+**포워더 단계에서 기업이 하지 않는 이유 (추정 포함)**
+
+1. **책임 회피**: 포워더 업계는 "소유하지도, 포장하지도, 통제하지도 않는 화물"의 오신고 책임을 지지 않겠다는 입장이다.[15] "검증했다"는 도구를 쓰면 오히려 책임을 떠안을 수 있다.
+2. **시장이 작다**: DG의 LCL 혼재는 MSDS 확인 부담 때문에 규모를 키우기 어렵고, 전문 콘솔사에 몰린다.[16] *국내 시장 규모는 확인 전.*
+3. **선사가 어차피 다시 거른다**: 선사 단계에 이미 대형 솔루션이 있어서, 포워더 단계 선별은 중복 비용으로 보일 수 있다.
+4. **규칙 데이터가 독점이다**: 선사의 선별 키워드와 규칙은 공개되지 않는다. 신규 도구는 같은 정확도를 내기 어렵다. *(추정)*
+
+**그래도 남는 수요 신호**
+
+- 선사가 오신고 벌금을 크게 올리고 있다. Emirates Lines는 2025-08부터 컨테이너당 USD 30,000을 부과하고, 비용은 화주(선사 입장에서는 NVOCC도 화주)가 부담한다.[17] ZIM은 부킹 수락 이후에도 거부하거나 수수료를 물린다.[17]
+- LCL에서는 화주 한 명의 오신고가 컨테이너 전체를 지연시킨다.[9]
+
+**결론**
+
+- L의 "격리 적재 계획 + 3D"는 Hazcheck와 겹치므로 차별점이 되지 못한다.
+- 살릴 수 있는 범위는 "중소 NVOCC가 부킹 전에 한국어와 중국어 비정형 서류에서 숨은 위험물을 찾아내는 자가점검"뿐이다. 이 경우 위의 1번(책임)과 4번(데이터)이 정면 리스크다.
+- 다른 후보들도 같은 기준(왜 기업이 안 하는가)으로 다시 걸러야 한다.
+
+12. Hazcheck Workstation — https://hazcheck.com/product/hazcheck-workstation/
+13. Hazcheck Company Overview — https://hazcheck.com/company-overview/
+14. Hazcheck Detect — https://hazcheck.com/product/hazcheck-detect/
+15. Airforwarders Association, IATA 프레임워크 책임 경고 — https://aircargoweek.com/airforwarders-association-issues-new-iata-framework-forwarder-risk-warning/
+16. The Hidden World of the LCL Consolidation Market — https://maritime-executive.com/editorials/the-hidden-world-of-the-lcl-consolidation-market-part-1
+17. Emirates Line 오신고 정책 — https://www.emiratesline.com/?p=8982 / ZIM — https://www.zim.com/customer-updates/cargo-misdeclaration-policy-update
