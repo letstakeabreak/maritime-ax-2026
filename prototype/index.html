@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>운임렌즈 프로토타입</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#16181d;--muted:#6b7280;--line:#e5e7eb;--brand:#1f5eff;--ok:#16a34a;--warn:#d97706;--high:#dc2626;--low:#0891b2}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo","Noto Sans KR",sans-serif}
+header{background:#0b1b3f;color:#fff;padding:18px 24px}header h1{margin:0;font-size:20px}header p{margin:4px 0 0;opacity:.75;font-size:13px}
+.notice{background:#fff7e6;border-bottom:1px solid #f5d9a8;padding:8px 24px;font-size:13px;color:#7a4b00}
+main{max-width:1180px;margin:0 auto;padding:20px 16px;display:grid;gap:16px;grid-template-columns:1fr 1fr}
+section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+h2{font-size:16px;margin:0 0 12px}h2 small{color:var(--muted);font-weight:400;margin-left:6px}
+.steps{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.sample{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;cursor:pointer;font:inherit}
+.sample[aria-pressed=true]{background:var(--brand);border-color:var(--brand);color:#fff}
+.drop{flex:1;min-width:220px;border:1.5px dashed #c7cbd3;border-radius:10px;padding:8px 12px;color:var(--muted);font-size:13px}
+dl{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin:0 0 12px}dl div{background:var(--bg);border-radius:8px;padding:6px 10px}dt{font-size:12px;color:var(--muted)}dd{margin:0;font-weight:600}
+table{width:100%;border-collapse:collapse}td{border-top:1px solid var(--line);padding:7px 4px}.num{text-align:right;white-space:nowrap}
+input[type=number]{width:110px;text-align:right;font:inherit;border:1px solid var(--line);border-radius:6px;padding:3px 6px}
+.tag{font-size:12px;background:#eef2ff;color:#3730a3;border-radius:6px;padding:2px 6px}
+.total{margin-top:10px;text-align:right;color:var(--muted)}.total b{color:var(--ink)}
+.gauge-head{display:flex;justify-content:space-between;align-items:center}
+.pill{border-radius:999px;padding:2px 10px;font-size:13px;color:#fff}.pill.ok{background:var(--ok)}.pill.warn{background:var(--warn)}.pill.high{background:var(--high)}.pill.low{background:var(--low)}
+.bar{position:relative;height:12px;border-radius:6px;margin:14px 0 6px;background:linear-gradient(90deg,#a5f3fc,#bbf7d0 33%,#bbf7d0 55%,#fde68a 72%,#fecaca)}
+.marker{position:absolute;top:-5px;width:4px;height:22px;background:var(--ink);border-radius:2px;transform:translateX(-2px)}
+.bar-legend{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}.muted{color:var(--muted);font-size:13px}
+ul{list-style:none;padding:0;margin:0;display:grid;gap:8px}.f{border-left:4px solid var(--line);background:var(--bg);border-radius:8px;padding:8px 12px}.f p{margin:2px 0 0;font-size:13px;color:#374151}
+.f.high{border-color:var(--high)}.f.warn{border-color:var(--warn)}.f.info{border-color:#9ca3af}.f.ok{border-color:var(--ok)}
+textarea{width:100%;min-height:210px;font:inherit;font-size:13px;border:1px solid var(--line);border-radius:8px;padding:10px}
+button.copy{margin-top:8px;border:0;background:var(--brand);color:#fff;border-radius:8px;padding:8px 14px;font:inherit;cursor:pointer}
+#programs li{background:var(--bg);border-radius:8px;padding:8px 12px}#programs span{margin-left:8px;font-size:12px;color:var(--muted)}#programs p{margin:2px 0 0;font-size:13px}
+.badge{display:inline-block;background:var(--high);color:#fff;border-radius:999px;font-size:12px;padding:0 8px;margin-left:6px}
+@media(max-width:860px){main{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><h1>운임렌즈 <span style="font-weight:400;opacity:.7">(가칭)</span></h1><p>중소 수출화주를 위한 해상운임 견적 진단</p></header>
+<div class="notice">프로토타입입니다. 견적서, KCCI 일부 항로 외 기준값, 공표 요금은 모두 예시 데이터이며, AI 추출 결과는 사전 생성한 예시입니다. 진단 규칙은 실제로 동작합니다.</div>
+<main>
+  <div class="steps">
+    <b>① 견적 선택</b>
+    <button class="sample" data-key="normal">예시 A 시장권</button>
+    <button class="sample" data-key="highOF">예시 B 해상운임 고가</button>
+    <button class="sample" data-key="dupMissing">예시 C 중복 및 누락</button>
+    <div class="drop">실제 서비스: 견적서 PDF, 엑셀, 메일 본문을 올리면 AI가 항목을 추출합니다</div>
+  </div>
+  <section>
+    <h2>② 항목 분해 <small>AI 추출 결과, 금액을 고치면 진단이 바로 바뀝니다</small></h2>
+    <dl id="meta"></dl>
+    <table><tbody id="items"></tbody></table>
+    <div class="total">총액(원화 환산) <b id="total"></b></div>
+  </section>
+  <section>
+    <h2>③ 진단 <span class="badge" id="count">0</span></h2>
+    <div id="gauge"></div>
+    <ul id="findings" style="margin-top:14px"></ul>
+  </section>
+  <section>
+    <h2>④ 포워더 확인 요청 메모 <small>진단 결과로 생성</small></h2>
+    <textarea id="memo" aria-label="확인 요청 메모"></textarea>
+    <button class="copy" id="copy">복사</button>
+  </section>
+  <section>
+    <h2>⑤ 신청을 검토할 지원사업</h2>
+    <ul id="programs"></ul>
+    <p class="muted" style="margin-top:10px">요건과 운영 여부는 각 공고문에서 확인해야 합니다.</p>
+  </section>
+</main>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
