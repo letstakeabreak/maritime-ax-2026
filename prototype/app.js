@@ -11,6 +11,7 @@ const KIND = { OF: "운임", LSS: "운임", THC: "부대", DOC: "부대", BLFEE:
 const CONF = { "WFG": 0.81, "Service Charge": 0.74, "O/F": 0.93, "B/L Issuance Fee": 0.88 };
 
 let quote = null, result = null;
+const openKeys = new Set();
 
 function position(r) {
   if (r < 0.9) return { k: "low", t: "시장보다 낮음" };
@@ -27,7 +28,8 @@ function diagnose(q) {
   const of = q.items.find((i) => i.code === "OF");
   const bench = REF.kcci.routes[q.route];
   let ofr = null;
-  if (of && bench) {
+  if (of && !(of.amount > 0)) F.push({ key: "of-zero", lv: "info", title: "해상운임 금액을 확인해 주세요", detail: "금액이 0이거나 비어 있어 시장 대비 위치를 계산하지 않았습니다.", basis: [["견적", `${of.raw} ${usd(of.amount)}`]], ask: "해상운임 금액을 다시 확인 부탁드립니다." });
+  if (of && of.amount > 0 && bench) {
     const r = of.amount / bench;
     ofr = { amount: of.amount, bench, r, pos: position(r) };
     if (r > 1.1) F.push({ lv: r > 1.25 ? "bad" : "warn", title: "해상운임이 KCCI 권역 운임보다 높습니다",
@@ -41,11 +43,12 @@ function diagnose(q) {
     const ref = REF.published[it.code];
     if (!ref) return;
     const mid = (ref.min + ref.max) / 2, v = toKRW(it);
-    if (v > mid * 1.1) F.push({ lv: "warn", title: `${ref.label}가 선사 공표 요금보다 높습니다`,
-      detail: `견적 ${won(v)}, 공표 기준 ${won(mid)}의 +${Math.round((v / mid - 1) * 100)}%.`,
-      basis: [["견적", `${it.raw} ${won(v)}`], ["기준", `선사 공표 요금 ${won(ref.min)}~${won(ref.max)}, 평균 ${won(mid)} (예시값)`],
+    const nm = ref.src === "공표" ? "선사 공표 요금" : "참고 범위";
+    if (v > mid * 1.1) F.push({ key: "fee-" + it.code, lv: "warn", title: `${ref.label}가 ${nm}보다 높습니다`,
+      detail: `견적 ${won(v)}, ${nm} 평균 ${won(mid)}의 +${Math.round((v / mid - 1) * 100)}%.`,
+      basis: [["견적", `${it.raw} ${won(v)}`], ["기준", `${nm} ${won(ref.min)}~${won(ref.max)}, 평균 ${won(mid)} (예시값${ref.src === "참고" ? ", 공표 대상 여부 확인 전" : ""})`],
         ["판정", "공표 평균 대비 +10% 초과 (운임공표제의 허용 편차를 참고한 설정값)"]],
-      ask: `${it.raw} ${won(v)}이 선사 공표 요금(평균 ${won(mid)})보다 높은 이유를 알려 주세요.` });
+      ask: `${it.raw} ${won(v)}이 ${nm}(평균 ${won(mid)})보다 높은 이유를 알려 주세요.` });
   });
 
   REF.dupGroups.forEach((g) => {
@@ -81,10 +84,10 @@ function renderItems() {
     return `<li class="row" style="animation-delay:${i * 30}ms">
       <span class="kind" data-k="${k}">${k}</span>
       <span class="row-text"><span class="row-title">${it.raw}</span>
-        <span class="row-sub ${c < 0.85 ? "low" : ""}">${CODE_LABEL[it.code] || it.code}, 분류 신뢰도 ${Math.round(c * 100)}%${c < 0.85 ? ", 확인 필요" : ""}</span></span>
-      <span class="amt"><input type="number" value="${it.amount}" data-i="${i}" aria-label="${it.raw} 금액">${it.cur}</span></li>`;
+        <span class="row-sub ${c < 0.85 ? "low" : ""}">${CODE_LABEL[it.code] || it.code}, 분류 신뢰도(예시) ${Math.round(c * 100)}%${c < 0.85 ? ", 확인 필요" : ""}</span></span>
+      <span class="amt"><input type="number" inputmode="numeric" min="0" max="1000000000" value="${it.amount}" data-i="${i}" aria-label="${it.raw} 금액">${it.cur}</span></li>`;
   }).join("");
-  $$("#items input").forEach((el) => el.addEventListener("input", (e) => { quote.items[+e.target.dataset.i].amount = +e.target.value || 0; renderResult(); }));
+  $$("#items input").forEach((el) => el.addEventListener("input", (e) => { const v = Math.min(Math.max(+e.target.value || 0, 0), 1e9); quote.items[+e.target.dataset.i].amount = v; e.target.closest(".row").classList.toggle("zero", v === 0); renderResult(); }));
 }
 
 function renderResult() {
@@ -96,25 +99,26 @@ function renderResult() {
     <div class="bar"><span class="marker" style="left:${Math.max(0, Math.min(100, ((ofr.r - 0.6) / 0.9) * 100))}%"></span></div>
     <div class="bar-legend"><span>낮음</span><span>KCCI ${quote.route} ${usd(ofr.bench)}</span><span>높음</span></div>
     <p class="note">견적 ${usd(ofr.amount)}, KCCI 대비 ${ofr.r >= 1 ? "+" : ""}${Math.round((ofr.r - 1) * 100)}%. 기준일 ${REF.kcci.asOf}, ${REF.kcci.unit}. KCCI에는 포워더 마진과 부대비용이 없으므로 차이가 곧 부당 청구를 뜻하지는 않습니다.</p>`
-    : `<p class="note">비교할 KCCI 항로가 없습니다.</p>`;
-  $("#findings").innerHTML = F.length ? F.map((f, i) => `<li data-i="${i}" tabindex="0" aria-expanded="false"><span class="dot ${f.lv}"></span><span><b>${f.title}</b><p>${f.detail}</p></span></li>`).join("")
+    : `<p class="note">해상운임 금액이 없거나 비교할 KCCI 항로가 없어 위치를 표시하지 않습니다.</p>`;
+  $("#findings").innerHTML = F.length ? F.map((f, i) => `<li data-i="${i}" data-key="${f.key || f.title}" role="button" tabindex="0" aria-expanded="false"><span class="dot ${f.lv}"></span><span><b>${f.title}</b><p>${f.detail}</p></span></li>`).join("")
     : `<li><span class="dot ok"></span><span><b>규칙으로 확인한 범위에서 문제가 없습니다</b></span></li>`;
-  $$("#findings li[data-i]").forEach((li) => { li.onclick = li.onkeydown = (e) => { if (e.type === "click" || e.key === "Enter") toggle(li); }; });
+  $$("#findings li[data-i]").forEach((li) => { li.onclick = li.onkeydown = (e) => { if (e.type === "click" || e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(li); } }; if (openKeys.has(li.dataset.key)) toggle(li, true); });
   const asks = F.map((f) => f.ask);
   $("#memo").value = asks.length ? `${quote.forwarder} 담당자님께,\n\n보내 주신 ${quote.pol}→${quote.pod} ${quote.equip} 견적 관련하여 몇 가지 확인 부탁드립니다.\n\n` +
     asks.map((a, i) => `${i + 1}. ${a}`).join("\n") + "\n\n감사합니다." : "확인 요청할 항목이 없습니다.";
   $("#programs").innerHTML = REF.programs.map((p) => `<li><b>${p.name}</b><span>${p.who}</span><p>${p.note}</p></li>`).join("");
 }
 
-function toggle(li) {
-  const open = li.getAttribute("aria-expanded") === "true";
+function toggle(li, force) {
+  const open = force ? false : li.getAttribute("aria-expanded") === "true";
+  openKeys[open ? "delete" : "add"](li.dataset.key);
   li.querySelector(".basis")?.remove();
   li.setAttribute("aria-expanded", !open);
-  li.setAttribute("aria-selected", !open);
   if (!open) li.insertAdjacentHTML("beforeend", `<div class="basis">${result.F[+li.dataset.i].basis.map(([k, v]) => `<div class="quote"><b>${k}</b>${v}</div>`).join("")}</div>`);
 }
 
 function load(key) {
+  openKeys.clear();
   quote = structuredClone(SAMPLES[key]);
   $$(".chip").forEach((b) => b.setAttribute("aria-pressed", b.dataset.key === key));
   renderItems();
@@ -122,8 +126,9 @@ function load(key) {
 }
 
 $$(".chip").forEach((b) => b.addEventListener("click", () => load(b.dataset.key)));
-$("#copy").addEventListener("click", () => { navigator.clipboard?.writeText($("#memo").value); $("#copy").textContent = "복사됨"; setTimeout(() => ($("#copy").textContent = "복사"), 1200); });
-load(new URLSearchParams(location.search).get("q") || "normal");
+$("#copy").addEventListener("click", () => { const done = (t) => ($("#copy").textContent = t); if (navigator.clipboard) navigator.clipboard.writeText($("#memo").value).then(() => done("복사됨"), () => done("직접 선택해 복사하세요")); else { $("#memo").select(); done("직접 선택해 복사하세요"); } setTimeout(() => ($("#copy").textContent = "복사"), 1200); });
+const q0 = new URLSearchParams(location.search).get("q");
+load(SAMPLES[q0] ? q0 : "normal");
 
 $$(".mtabs button").forEach((b) => b.addEventListener("click", () => {
   $(".grid").dataset.active = b.dataset.t;

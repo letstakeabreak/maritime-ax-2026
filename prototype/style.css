@@ -1,10 +1,10 @@
 /* 운임렌즈. 또박의 디자인 흐름을 따른다.
    토스 원칙(한 화면 한 과제, 큰 제목, 하단 고정 버튼)과 Apple HIG(그룹 목록, 명확한 계층, 44pt 터치 영역). */
 :root {
-  --bg: #f4f5f2; --surface: #fffffd; --text: #1a1f24; --text-2: #4a525b; --text-3: #868d94;
+  --bg: #f4f5f2; --surface: #fffffd; --text: #1a1f24; --text-2: #4a525b; --text-3: #646b72;
   --line: #e2e4e0; --fill: #eceee9;
   --accent: #1d4e89; --accent-press: #163d6c; --accent-soft: #e3ebf5;
-  --ok: #1f7a55; --ok-soft: #e1f1e9; --warn: #a86210; --warn-soft: #f8eedd; --bad: #b8423a; --bad-soft: #f7e6e3;
+  --ok: #1f7a55; --ok-soft: #e1f1e9; --warn: #8a4f0b; --warn-soft: #f8eedd; --bad: #a8392f; --bad-soft: #f7e6e3;
   --r-card: 22px; --r-input: 14px; --r-btn: 16px;
   --shadow: 0 0 0 1px rgba(26,31,36,.06), 0 1px 2px rgba(26,31,36,.04);
   --ease: cubic-bezier(.2,.8,.2,1);
@@ -178,3 +178,9 @@ body { padding-bottom: 48px; }
   .pick-help { display: none; }
   .card { padding: 18px; }
 }
+
+/* 검증 반영 */
+.row.zero .amt input { border-color: var(--warn); }
+@media (max-width: 400px) { .amt input { width: 92px; } .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); } .row { gap: 8px; } }
+@media (prefers-color-scheme: dark) { .count { background: #b8423a; } }
+.grid { min-height: 60vh; }
