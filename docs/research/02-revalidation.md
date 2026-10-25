@@ -99,3 +99,20 @@
 17. 첼로스퀘어 LCL 운임 조회 — https://www.cello-square.com/kr/service/view-103.do / 트레드링스 견적 — https://www.tradlinx.com/blog/?p=3751
 18. KCCI 산출 방식 — https://www.forwarder.kr/freight/index/kcci / 패널 확대 — https://www.fnnews.com/news/202511131858300730
 19. 해진공 운임지수, 국가물류통합정보센터 제공 (2026-06) — https://www.heraldk.com/article/2026061116235174280
+
+## 리스크 확인 결과 (2026-10-25 추가)
+
+| 확인 항목 | 결과 | 영향 |
+|---|---|---|
+| KCCI 단위 | 항로별 운임을 **40ft 컨테이너 1개당 달러**로 발표한다(예: 2026-09-07 기준 북미 서안 7,424달러, 북유럽 4,289달러).[20] 항구 간이 아니라 권역 단위다. | FCL 해상운임(O/F)을 권역 수준에서 비교할 수 있다 |
+| LCL 지수 | 국내에 LCL(CBM당) 운임지수는 **확인되지 않았다**.[21] | **MVP는 FCL로 한정한다.** LCL은 부대비용 진단만 하고, 운임 비교는 하지 않는다고 명시한다 |
+| KCCI 이용 조건 | 공공데이터포털 15131881에 KCCI가 등록되어 있고, 이용허락범위는 "제한 없음"으로 검색된다.[22] *항로별 시계열이 있는지와 원문 페이지는 이 환경의 네트워크 차단으로 확인하지 못했다* | 재사용 가능성이 높다. 제출 전에 직접 확인한다 |
+| 선사 공표운임 | 2020-07부터 모든 항로에서 운임 288종과 요금 8종(서류발급비, D/O 요금, 저유황유할증료, 부두사용료 등 포함)을 연 4회 PORT-MIS에 공표한다.[23] 공표값은 항로별 최고와 최저의 평균이고, 편차는 ±10% 이내여야 한다. 선사 신고 기준이라 실제 운임과 다를 수 있다.[24] | 부대비용(DOC, D/O 등)을 선사 공표 요금과 비교할 근거가 된다 |
+
+**결정:** R로 확정한다. 대상은 **FCL로 수출하는 중소화주**이고, LCL은 부대비용 진단까지만 다룬다.
+
+20. KCCI 6주 연속 상승 (2026-09) — https://news.tf.co.kr/read/ogmeta/2363758.htm
+21. LCL 운임 구조 일반 자료 (지수 미확인) — https://www.marineinsight.com/maritime-law/what-is-cbm-rate-in-shipping/
+22. 공공데이터포털 KCCI 메타데이터 — https://www.data.go.kr/biz/dcat/metadata/15131881.do
+23. 288가지 컨테이너 해상운임 공개 (2020) — https://newstomato.com/ReadNews.aspx?no=980802
+24. 운임공표제 안내 — https://www.tradlinx.com/blog/?p=1634 / 공표 운임 공공데이터 — https://www.data.go.kr/biz/dcat/metadata/15133134.do
