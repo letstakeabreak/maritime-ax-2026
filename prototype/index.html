@@ -3,67 +3,113 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>운임렌즈 — 해상운임 견적 진단</title>
-  <meta name="description" content="포워더 견적서를 KOBC 운임지수(KCCI)와 선사 공표 요금에 비춰 진단합니다. 프로토타입.">
+  <title>운임렌즈 — 받은 견적을 살펴보세요</title>
+  <meta name="description" content="해상운임 견적에서 포워더에게 물어볼 내용을 확인하세요. KOBC 운임지수와 예시 견적으로 살펴보는 프로토타입입니다.">
   <link rel="stylesheet" href="fonts/pretendard.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20261025-1">
 </head>
 <body>
-  <header class="nav">
-    <div class="nav-inner">
-      <span class="brand">운임<i>렌즈</i></span>
-      <span class="proto">프로토타입, 예시 데이터</span>
+  <a class="skip-link" href="#main">견적 결과로 건너뛰기</a>
+  <header class="hero">
+    <div class="container hero-inner">
+      <div class="brand-row">
+        <a class="brand" href="./" aria-label="운임렌즈 처음으로">운임<span>렌즈</span></a>
+        <p class="demo-note">예시로 만든 견적이에요.<br class="mobile-only"> AI는 아직 연결하지 않았어요.</p>
+      </div>
+      <div class="hero-content">
+        <div class="hero-title">
+          <h1><span class="desktop-only">받은 견적을 살펴봤어요</span><span class="mobile-only" id="route-title"></span></h1>
+          <p id="route-description" class="desktop-only"></p>
+          <p id="route-description-mobile" class="mobile-only"></p>
+        </div>
+        <div class="sample-picker desktop-only" role="group" aria-label="예시 견적 선택">
+          <button type="button" class="chip" data-key="normal">A 운임이 비슷해요</button>
+          <button type="button" class="chip" data-key="highOF">B 운임이 높아요</button>
+          <button type="button" class="chip" data-key="dupMissing">C 확인할 게 있어요</button>
+        </div>
+      </div>
     </div>
   </header>
 
-  <main class="page">
-    <p class="eyebrow">중소 수출화주를 위한 해상운임 견적 진단</p>
-    <h1 class="headline">받은 견적이<br>시장에서 어디쯤인지 확인하세요</h1>
-    <p class="lede">KCCI 4개 항로는 2026-10-19 KOBC 발표값이고, 견적서와 요금 기준 범위는 예시 데이터이며, AI 추출 결과는 사전 생성한 예시입니다. 진단 규칙은 실제로 동작합니다.</p>
-
-    <div class="pick">
-      <span class="pick-label">① 견적 선택</span>
-      <button type="button" class="chip" data-key="normal">예시 A 시장권</button>
-      <button type="button" class="chip" data-key="highOF">예시 B 해상운임 고가</button>
-      <button type="button" class="chip" data-key="dupMissing">예시 C 중복 및 누락</button>
-      <span class="pick-help">실제 서비스에서는 견적서 PDF, 엑셀, 메일 본문을 올리면 AI가 항목을 추출합니다</span>
+  <main id="main" class="container page">
+    <section class="card summary" aria-labelledby="summary-title">
+      <h2 id="summary-title"></h2>
+      <div class="market" id="gauge"></div>
+      <p class="market-date" id="market-date"></p>
+      <p class="summary-note"><span class="desktop-only">이 결과만으로 </span>잘못 청구된 비용이라고 단정할 수는 없어요.</p>
+    </section>
+    <div class="result-layout">
+      <section class="card findings-card" aria-labelledby="findings-title">
+        <h2 id="findings-title">포워더에게 물어보세요</h2>
+        <p class="muted">항목을 누르면 자세한 이유를 볼 수 있어요.</p>
+        <ul id="findings" class="findings"></ul>
+        <p class="example-note">요금은 예시값과 비교했어요.<br class="mobile-only"> 실제 선사 요금은 아직 반영하지 않았어요.</p>
+        <button type="button" class="primary" data-open="memo-dialog">물어볼 내용 보기</button>
+      </section>
+      <aside class="details-column" aria-label="견적과 비교 자료">
+        <section class="card quote-card">
+          <p id="forwarder" class="quote-forwarder desktop-only"></p>
+          <p id="total" class="quote-total desktop-only"></p>
+          <p id="quote-caption" class="muted desktop-only"></p>
+          <button type="button" class="action-row" data-open="quote-dialog">
+            <span class="row-copy"><strong>견적 원문 보기</strong><span class="row-detail desktop-only">비용별 이름과 금액을 볼 수 있어요.</span><span class="row-detail mobile-only" id="quote-mobile-caption"></span></span>
+            <img class="chevron" src="assets/chevron.svg" width="18" height="18" alt="">
+          </button>
+        </section>
+        <button type="button" class="action-row" data-open="basis-dialog">
+          <span class="row-copy"><strong>어떤 기준인지 보기</strong><span class="row-detail desktop-only">어떤 비용을 비교했고 자료는 어디서 가져왔는지 볼 수 있어요.</span><span class="row-detail mobile-only">비교한 자료와 지원사업을 살펴보세요.</span></span>
+          <img class="chevron" src="assets/chevron.svg" width="18" height="18" alt="">
+        </button>
+        <button type="button" class="action-row desktop-only" data-open="program-dialog">
+          <span class="row-copy"><strong>지원사업 3개 살펴보기</strong><span class="row-detail">신청할 수 있는지는 공고문에서 확인해 주세요.</span></span>
+          <img class="chevron" src="assets/chevron.svg" width="18" height="18" alt="">
+        </button>
+      </aside>
     </div>
-
-    <nav class="mtabs" aria-label="영역 선택">
-      <button type="button" data-t="items">항목</button>
-      <button type="button" data-t="diag" aria-current="true">진단 <span class="count" id="count-m">0</span></button>
-      <button type="button" data-t="memo">확인 요청</button>
-      <button type="button" data-t="prog">지원사업</button>
-    </nav>
-    <div class="grid" data-active="diag">
-      <section class="card" data-t="items">
-        <h2 class="card-title">② 항목 분해 <small>AI 추출 결과(사전 생성 예시), 금액을 고치면 진단이 바로 바뀝니다</small></h2>
-        <dl class="meta" id="meta"></dl>
-        <ol id="items" class="list"></ol>
-        <p class="total">총액(원화 환산) <b id="total"></b></p>
-      </section>
-
-      <section class="card" data-t="diag">
-        <h2 class="card-title">③ 진단 <span class="count" id="count">0</span></h2>
-        <div id="gauge"></div>
-        <ul class="findings" id="findings"></ul>
-        <p class="note">항목을 누르면 비교에 쓴 기준과 판정 규칙이 펼쳐집니다.</p>
-      </section>
-
-      <section class="card" data-t="memo">
-        <h2 class="card-title">④ 포워더 확인 요청 메모 <small>진단 결과로 생성</small></h2>
-        <textarea id="memo" aria-label="확인 요청 메모"></textarea>
-        <div class="actions"><button type="button" class="btn secondary small" id="copy">복사</button></div>
-      </section>
-
-      <section class="card" data-t="prog">
-        <h2 class="card-title">⑤ 신청을 검토할 지원사업</h2>
-        <ul class="programs" id="programs"></ul>
-        <p class="note">요건과 운영 여부는 각 공고문에서 확인해야 합니다. 서비스가 자격을 확정하지 않습니다.</p>
-      </section>
-    </div>
+    <footer class="page-footer">
+      <p>운임지수는 지역별 참고값이에요. 이 수치만으로 견적이 적정한지는 판단할 수 없어요.</p>
+      <div class="mobile-sample-picker mobile-only">
+        <label for="sample-select">다른 예시 견적 보기</label>
+        <select id="sample-select"><option value="normal">A 운임이 비슷해요</option><option value="highOF">B 운임이 높아요</option><option value="dupMissing">C 확인할 게 있어요</option></select>
+      </div>
+    </footer>
   </main>
-  <script src="data.js"></script>
-  <script src="app.js"></script>
+
+  <dialog id="finding-dialog" class="detail-dialog" aria-labelledby="finding-title">
+    <div class="dialog-heading"><h2 id="finding-title" tabindex="-1"></h2><button class="close" type="button" data-close aria-label="닫기">×</button></div>
+    <div id="finding-body" class="prose"></div>
+  </dialog>
+  <dialog id="quote-dialog" class="detail-dialog quote-dialog" aria-labelledby="quote-title">
+    <div class="dialog-heading"><h2 id="quote-title" tabindex="-1">견적에 이렇게 적혀 있어요</h2><button class="close" type="button" data-close aria-label="닫기">×</button></div>
+    <p class="muted">금액을 바꾸면 합계와 확인할 내용도 달라져요. 예시를 바꾸면 처음 금액으로 돌아가요.</p>
+    <dl id="meta" class="quote-meta"></dl>
+    <ol id="items" class="items"></ol>
+    <div class="quote-bottom"><span>원화로 합치면</span><strong id="quote-dialog-total"></strong></div>
+    <button type="button" class="primary" data-close>결과 다시 보기</button>
+  </dialog>
+  <dialog id="memo-dialog" class="detail-dialog" aria-labelledby="memo-title">
+    <div class="dialog-heading"><h2 id="memo-title" tabindex="-1">포워더에게 이렇게 물어보세요</h2><button class="close" type="button" data-close aria-label="닫기">×</button></div>
+    <label class="muted" for="memo">필요한 내용을 고쳐서 복사하세요. 이 문장은 자동으로 발송되지 않아요.</label>
+    <textarea id="memo" rows="13" spellcheck="false"></textarea>
+    <p id="memo-note" class="muted"></p>
+    <p id="memo-stale" class="notice" hidden>금액이 달라졌어요. 직접 고친 질문은 그대로 두었으니, 새 결과에 맞게 확인해 주세요.</p>
+    <div class="dialog-actions"><button type="button" id="reset-memo" class="secondary">현재 견적으로 다시 쓰기</button><button type="button" id="copy" class="primary">질문 복사하기</button></div>
+    <p id="copy-status" class="status" role="status"></p>
+  </dialog>
+  <dialog id="basis-dialog" class="detail-dialog" aria-labelledby="basis-title">
+    <div class="dialog-heading"><h2 id="basis-title" tabindex="-1">어떤 기준으로 비교했나요?</h2><button class="close" type="button" data-close aria-label="닫기">×</button></div>
+    <div id="basis-content" class="prose"></div>
+    <a href="https://kobc.or.kr/ebz/common/file/KCCI_Standards.pdf" target="_blank" rel="noopener noreferrer">KOBC에서 KCCI 산출 기준 읽기 ↗</a>
+    <a href="https://kobc.or.kr/ebz/shippinginfo/kcci/gridList.do?mId=0304000000" target="_blank" rel="noopener noreferrer">KOBC에서 항로별 운임 보기 ↗</a>
+    <button type="button" class="action-row" data-open="program-dialog"><span class="row-copy"><strong>지원사업도 살펴보세요</strong><span class="row-detail">수출바우처와 물류비, 전용 선복 지원을 알아보세요.</span></span><img class="chevron" src="assets/chevron.svg" width="18" height="18" alt=""></button>
+  </dialog>
+  <dialog id="program-dialog" class="detail-dialog" aria-labelledby="program-title">
+    <div class="dialog-heading"><h2 id="program-title" tabindex="-1">지원사업도 살펴보세요</h2><button class="close" type="button" data-close aria-label="닫기">×</button></div>
+    <ul id="programs" class="programs"></ul>
+    <p class="muted">신청 대상과 모집 기간, 지원 한도는 각 공고문에서 확인해 주세요. 이 화면에서는 신청 자격을 판단하지 않아요.</p>
+  </dialog>
+  <noscript>견적을 살펴보려면 브라우저에서 JavaScript를 켜 주세요.</noscript>
+  <script src="data.js?v=20261025-1"></script>
+  <script src="app.js?v=20261025-1"></script>
 </body>
 </html>

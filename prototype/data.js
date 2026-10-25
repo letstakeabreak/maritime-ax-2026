@@ -1,10 +1,13 @@
 // 프로토타입 데이터. KCCI만 실제 발표값이고 나머지는 예시값이다.
-// KCCI 4개 항로는 2026-10-19 KOBC 발표값(쿠키뉴스 보도 인용). 견적과 요금 기준 범위는 예시값.
+// KCCI 4개 항로는 2026-10-19 KOBC 공식 표와 대조. 검증 근거: docs/research/04-verification-evidence.md
 window.REF = {
   kcci: {
     asOf: "2026-10-19",
     unit: "USD / 40ft",
-    source: "KOBC 주간 통합 시황 리포트(2026-10-19 발표, 보도 인용)",
+    source: "KOBC KCCI 공식 항로별 운임 표(2026-10-19)",
+    sourceUrl: "https://kobc.or.kr/ebz/shippinginfo/kcci/gridList.do?mId=0304000000",
+    standardsUrl: "https://kobc.or.kr/ebz/common/file/KCCI_Standards.pdf",
+    includedCodes: ["OF", "BAF", "CAF", "LSS", "EBS"],
     routes: {
       "북미 서안": 8229,
       "북미 동안": 11590,
@@ -12,12 +15,12 @@ window.REF = {
       "지중해": 3835,
     },
   },
-  // 요금 기준 범위 (KRW, 40ft 기준 예시). 공표: 운임공표제 요금 8종에 포함, 참고: 공표 대상 여부 확인 전
+  // KRW, 40ft 기준 예시 범위. 실제 선사 공표 요금은 아직 연동하지 않았다.
   published: {
-    THC: { min: 180000, max: 230000, label: "터미널 작업비", src: "참고" },
-    DOC: { min: 40000, max: 55000, label: "서류발급비", src: "공표" },
-    WHARFAGE: { min: 8000, max: 11000, label: "부두사용료", src: "공표" },
-    SEAL: { min: 8000, max: 12000, label: "봉인비", src: "참고" },
+    THC: { min: 180000, max: 230000, label: "터미널 작업비" },
+    DOC: { min: 40000, max: 55000, label: "서류발급비" },
+    WHARFAGE: { min: 8000, max: 11000, label: "부두사용료" },
+    SEAL: { min: 8000, max: 12000, label: "봉인비" },
   },
   // 같은 성격의 수수료 묶음 (이름만 다른 중복 청구 의심)
   dupGroups: [
@@ -27,12 +30,14 @@ window.REF = {
   // 목적지 신고는 항로에 맞는 것만 유효
   filings: { AMS: ["북미 서안", "북미 동안"], ENS: ["북유럽", "지중해"] },
   programs: [
-    { name: "수출바우처 물류 분야", who: "중소, 중견 수출기업", note: "국제운송비, 창고 보관, 포장 등 물류비를 바우처로 지원. 2026년 국제운송비 한도 6,000만 원(중기부)" },
-    { name: "지자체 수출물류비 지원", who: "관내 본사 중소 제조기업", note: "지역별 요건(직수출 실적, 수출자 구분, 중복 지원 제한) 확인 필요" },
-    { name: "중소기업 전용 선복 지원", who: "미주, 유럽 FCL 수출 중소기업", note: "국적선사 선복을 중소화주에 배정. 운영 여부는 시기별로 확인" },
+    { name: "수출바우처 물류 분야", who: "중소, 중견 수출기업", note: "국제운송과 보관, 포장 비용에 쓸 수 있는지 공고문에서 확인해 보세요." },
+    { name: "지자체 수출물류비 지원", who: "관내 본사 중소 제조기업", note: "사업장이 있는 지역의 지원 공고를 살펴보세요. 수출 실적과 중복 지원 여부 등 신청 조건이 지역마다 달라요." },
+    { name: "중소기업 전용 선복 지원", who: "미주, 유럽 FCL 수출 중소기업", note: "미주나 유럽으로 수출한다면 중소기업 전용 선복을 이용할 수 있는지 확인해 보세요. 운영 여부는 시기에 따라 달라요." },
   ],
 };
 
+// 예시 가정: 40ft 1대, 별도 항목으로 적힌 할증료는 O/F에 미포함. A/C는 별도 할증료 없음.
+// 실제 견적의 포함 관계·적용 주차·수량을 자동으로 확인하는 기능은 아직 없다.
 window.SAMPLES = {
   normal: {
     title: "예시 A: 시장권 견적",
@@ -85,7 +90,7 @@ window.SAMPLES = {
 };
 
 window.CODE_LABEL = {
-  OF: "해상운임", LSS: "저유황유할증료", THC: "터미널 작업비", DOC: "서류발급비", BLFEE: "B/L 발급비",
+  OF: "해상운임", BAF: "유류할증료", CAF: "통화할증료", LSS: "저유황유할증료", EBS: "긴급유류할증료", THC: "터미널 작업비", DOC: "서류발급비", BLFEE: "B/L 발급비",
   WHARFAGE: "부두사용료", SEAL: "봉인비", AMS: "미국 사전신고", ENS: "EU 사전신고",
   HANDLING: "포워더 취급수수료", SERVICE: "서비스 수수료", CUSTOMS: "통관수수료", TRUCK: "내륙운송",
 };
