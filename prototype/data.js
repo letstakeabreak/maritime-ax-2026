@@ -1,16 +1,15 @@
-// 모든 수치는 프로토타입용 예시 데이터다.
-// KCCI 북미 서안, 북미 동안, 북유럽은 2026-09-07 기준 보도값(news.tf.co.kr), 나머지 항로와 요금 기준은 예시값.
+// 프로토타입 데이터. KCCI만 실제 발표값이고 나머지는 예시값이다.
+// KCCI 4개 항로는 2026-10-19 KOBC 발표값(쿠키뉴스 보도 인용). 견적과 요금 기준 범위는 예시값.
 window.REF = {
   kcci: {
-    asOf: "2026-09-07",
+    asOf: "2026-10-19",
     unit: "USD / 40ft",
+    source: "KOBC 주간 통합 시황 리포트(2026-10-19 발표, 보도 인용)",
     routes: {
-      "북미 서안": 7424,
-      "북미 동안": 10989,
-      "북유럽": 4289,
-      "지중해": 4650,
-      "중동": 2900,
-      "동남아": 620,
+      "북미 서안": 8229,
+      "북미 동안": 11590,
+      "북유럽": 3475,
+      "지중해": 3835,
     },
   },
   // 요금 기준 범위 (KRW, 40ft 기준 예시). 공표: 운임공표제 요금 8종에 포함, 참고: 공표 대상 여부 확인 전
@@ -58,7 +57,7 @@ window.SAMPLES = {
     route: "북유럽", pol: "부산", pod: "로테르담", equip: "40HC", incoterms: "CIF", validity: "2026-10-31", freeTime: "목적지 5일",
     fx: 1380,
     items: [
-      { raw: "O/F", code: "OF", amount: 5600, cur: "USD" },
+      { raw: "O/F", code: "OF", amount: 4600, cur: "USD" },
       { raw: "LSS", code: "LSS", amount: 120, cur: "USD" },
       { raw: "THC", code: "THC", amount: 215000, cur: "KRW" },
       { raw: "DOC FEE", code: "DOC", amount: 50000, cur: "KRW" },
@@ -73,7 +72,7 @@ window.SAMPLES = {
     route: "북유럽", pol: "부산", pod: "함부르크", equip: "40GP", incoterms: "CIF", validity: "", freeTime: "",
     fx: 1380,
     items: [
-      { raw: "Ocean Freight", code: "OF", amount: 4400, cur: "USD" },
+      { raw: "Ocean Freight", code: "OF", amount: 3550, cur: "USD" },
       { raw: "THC", code: "THC", amount: 260000, cur: "KRW" },
       { raw: "Documentation Fee", code: "DOC", amount: 50000, cur: "KRW" },
       { raw: "B/L Issuance Fee", code: "BLFEE", amount: 50000, cur: "KRW" },
