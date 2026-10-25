@@ -1,0 +1,97 @@
+{
+  "checked_date_kst": "2026-10-25",
+  "base_commit": "ea5cfbb",
+  "method": "공식 URL HTTP GET, XML 필드 파싱, KCCI 표준기술서 2쪽 렌더 확인, 공식 항로별 표 대조",
+  "sources": [
+    {
+      "file": "kcci-standards.pdf",
+      "url": "https://kobc.or.kr/ebz/common/file/KCCI_Standards.pdf",
+      "fetched_at_utc": "2026-10-25T12:38:50+00:00",
+      "http_status": 200,
+      "content_type": "application/pdf",
+      "bytes": 801183,
+      "sha256": "2f69e0bab989d7ffcb4062570020cc49531f523ab9393047197933c20bd821b4",
+      "snapshot": null,
+      "note": "PDF/HTML 원본은 저장소에 복제하지 않음. SHA-256은 확인 시 다운로드한 응답 바이트 기준."
+    },
+    {
+      "file": "kcci-table.html",
+      "url": "https://kobc.or.kr/ebz/shippinginfo/kcci/gridList.do?mId=0304000000",
+      "fetched_at_utc": "2026-10-25T12:38:50+00:00",
+      "http_status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 53719,
+      "sha256": "9d576d0fac73cbd1389d47bb71885940061d5edfe1662623fd101dfdb0f6dcb2",
+      "snapshot": null,
+      "note": "PDF/HTML 원본은 저장소에 복제하지 않음. SHA-256은 확인 시 다운로드한 응답 바이트 기준."
+    },
+    {
+      "file": "15131881.xml",
+      "url": "https://www.data.go.kr/biz/dcat/metadata/15131881.do",
+      "fetched_at_utc": "2026-10-25T12:38:51+00:00",
+      "http_status": 200,
+      "content_type": "application/xml;charset=UTF-8",
+      "bytes": 11411,
+      "sha256": "14cc5bdd7bbb05efe691ed6e051ca565761e3bed688f939944596d71c5b414f7",
+      "snapshot": "data-go-15131881.xml",
+      "fields": {
+        "title": [
+          "한국해양진흥공사_컨테이너선운임지수(KCCI)",
+          "Korea Ocean Promotion Corporation Containerized Freight Index (KCCI)"
+        ],
+        "rights": [
+          "이용허락범위 제한 없음"
+        ]
+      }
+    },
+    {
+      "file": "15133134.xml",
+      "url": "https://www.data.go.kr/biz/dcat/metadata/15133134.do",
+      "fetched_at_utc": "2026-10-25T12:38:51+00:00",
+      "http_status": 200,
+      "content_type": "application/xml;charset=UTF-8",
+      "bytes": 7057,
+      "sha256": "da623d83237864842e1bbe39ff6841b1cc32ec8f1ae956c992c093f004d20c46",
+      "snapshot": "data-go-15133134.xml",
+      "fields": {
+        "title": [
+          "해양수산부_해운항만물류정보_화물보안료산출정보",
+          "Ministry of Oceans and Fisheries_Shipping and Port Logistics Information_Cargo Security Fee Calculation Information",
+          "해양수산부_해운항만물류정보_화물보안료산출정보_20260731"
+        ],
+        "rights": [
+          "이용허락범위 제한 없음"
+        ]
+      }
+    },
+    {
+      "file": "15029607.xml",
+      "url": "https://www.data.go.kr/biz/dcat/metadata/15029607.do",
+      "fetched_at_utc": "2026-10-25T12:41:39+00:00",
+      "http_status": 200,
+      "content_type": "application/xml;charset=UTF-8",
+      "bytes": 2867,
+      "sha256": "42a592bcd7adda2ef7d212ad3f6bea0888494a2472de4c973f139c3247e5edce",
+      "snapshot": "data-go-15029607.xml",
+      "fields": {
+        "title": [
+          "해양수산부_화물운임공표정보"
+        ],
+        "rights": [
+          "이용허락범위 제한 없음"
+        ]
+      }
+    },
+    {
+      "file": "15029607.html",
+      "url": "https://www.data.go.kr/data/15029607/openapi.do",
+      "fetched_at_utc": "2026-10-25T12:39:38+00:00",
+      "http_status": 200,
+      "content_type": "text/html;charset=UTF-8",
+      "bytes": 226284,
+      "sha256": "6c5e13214f44b3003c158f16feb82834be929e0672cac45179b68667354d7c27",
+      "snapshot": null,
+      "note": "공식 상세 페이지에서 무료, REST/XML, 개발·운영 자동승인 확인. HTML 원본은 저장소에 복제하지 않음."
+    }
+  ]
+}
