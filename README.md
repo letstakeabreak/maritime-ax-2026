@@ -29,4 +29,6 @@ node --check prototype/data.js
 
 2026-10-25 승인된 디자인을 [공개 서비스](https://unim-lens.vercel.app/?q=dupMissing)에 반영했습니다. 코드 커밋은 `fe3bf2b`입니다. [화면과 배포 검증 기록](docs/research/05-service-design-release.md)을 함께 남겼습니다.
 
-Vercel 프로젝트의 Root Directory는 `prototype`이며 Git 자동 배포는 비활성 상태입니다. 이후 로컬 변경이나 Git push만으로 공개 사이트가 갱신되지는 않습니다.
+Vercel 프로젝트 `unim-lens`는 GitHub의 `letstakeabreak/maritime-ax-2026`에 연결되어 있습니다. 운영 브랜치는 `main`, Root Directory는 `prototype`입니다. `main`에 push하면 운영 배포가 시작되고, 다른 브랜치는 Preview로 배포됩니다. 로컬에서만 수정한 내용은 배포되지 않습니다.
+
+`OPENAI_API_KEY`와 `DATA_GO_KR_SERVICE_KEY`는 Vercel의 Production·Preview에 Secret으로 등록되어 있습니다. 키 등록은 실제 API 연동 완료와 다릅니다. 현재 구현 범위는 위 항목을 따릅니다.

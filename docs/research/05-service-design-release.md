@@ -39,9 +39,17 @@ C의 유효기간 누락은 질문 수에 포함하지 않고 견적 원문과 �
 - 코드 커밋: `fe3bf2bc1ef885f57332c80ff9c704166531c536`, GitHub `main`에 반영했다.
 - Vercel 프로젝트: `unim-lens`, Root Directory `prototype`, 팀 `miros-projects-2a08ca58`.
 - 배포 ID: `dpl_6LTcb6gn85cTbHYnCZwS7P29LnMz`, 상태 READY.
-- Git 자동 배포가 꺼져 있어 저장소 루트에서 CLI로 배포했다. 인증된 경로로 HTML, CSS, JS 2개와 SVG 3개의 바이트 수 및 SHA-256이 검증한 로컬 파일과 같음을 확인한 뒤, MCP로 프로덕션에 한 번 승격했다. 보호 설정을 바꾸거나 새 bypass 토큰을 만들지 않았다.
+- 저장소 루트에서 CLI로 배포했다. 인증된 경로로 HTML, CSS, JS 2개와 SVG 3개의 바이트 수 및 SHA-256이 검증한 로컬 파일과 같음을 확인한 뒤, MCP로 프로덕션에 한 번 승격했다. 보호 설정을 바꾸거나 새 bypass 토큰을 만들지 않았다.
 - [공개 서비스](https://unim-lens.vercel.app/?q=dupMissing)의 도메인이 새 배포를 가리키며, 비로그인 GET 200과 HTML 일치를 확인했다.
 - 공개 브라우저에서 A/B/C의 질문 수와 금액, 390px 모바일의 가로 넘침 여부, C의 THC 수정에 따른 질문 5→4개 및 합계 변경, 질문 복사를 재확인했다. 새로고침하면 예시 원본으로 돌아오는 것도 확인했다.
 - 공개 서비스의 실제 화면: [데스크톱](evidence/service-desktop-2026-10-25.png), [모바일](evidence/service-mobile-2026-10-25.png).
 
 AI, 파일 업로드, 실시간 데이터 연동은 이번 디자인 적용으로 추가되지 않았다. 화면에서 이 범위를 분명히 알린다.
+
+## Git 연결 확인과 이전 설명 정정
+
+2026-10-25 후속 확인에서 `unim-lens`의 Git 연결은 `letstakeabreak/maritime-ax-2026`, 운영 브랜치는 `main`, Root Directory는 `prototype`으로 확인했다. 빌드를 건너뛰는 명령과 저장소의 배포 비활성 설정은 없다.
+
+앞선 기록은 `gitProviderOptions.createDeployments: disabled`를 자동 배포 비활성화로 잘못 해석했다. 이 값은 GitHub Deployment와 `deployment_status` 이벤트의 생성 여부이며, Git push에 따른 Vercel 배포를 막는 옵션이 아니다. [Vercel 공식 설명](https://github.com/vercel/terraform-provider-vercel/blob/main/docs/resources/project.md#nestedatt--git_provider_options)에 따라 정정하며, 관련 이벤트 설정은 변경하지 않았다.
+
+두 API 키의 이름, Secret 타입, Production·Preview 대상만 확인했다. 키 값 조회·다운로드와 실제 API 호출은 이 연결 확인에 포함하지 않았다.
