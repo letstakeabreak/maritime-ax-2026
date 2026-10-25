@@ -91,7 +91,7 @@ function renderResult() {
   result = diagnose(quote);
   const { F, ofr, total } = result;
   $("#total").textContent = `${won(total)} (환율 ${quote.fx}원 적용)`;
-  $("#count").textContent = F.filter((f) => f.lv !== "info").length;
+  $("#count").textContent = $("#count-m").textContent = F.filter((f) => f.lv !== "info").length;
   $("#gauge").innerHTML = ofr ? `<div class="card-title" style="font-size:15px;margin:0">해상운임 시장 대비 위치 <span class="pill ${ofr.pos.k}">${ofr.pos.t}</span></div>
     <div class="bar"><span class="marker" style="left:${Math.max(0, Math.min(100, ((ofr.r - 0.6) / 0.9) * 100))}%"></span></div>
     <div class="bar-legend"><span>낮음</span><span>KCCI ${quote.route} ${usd(ofr.bench)}</span><span>높음</span></div>
@@ -124,3 +124,9 @@ function load(key) {
 $$(".chip").forEach((b) => b.addEventListener("click", () => load(b.dataset.key)));
 $("#copy").addEventListener("click", () => { navigator.clipboard?.writeText($("#memo").value); $("#copy").textContent = "복사됨"; setTimeout(() => ($("#copy").textContent = "복사"), 1200); });
 load(new URLSearchParams(location.search).get("q") || "normal");
+
+$$(".mtabs button").forEach((b) => b.addEventListener("click", () => {
+  $(".grid").dataset.active = b.dataset.t;
+  $$(".mtabs button").forEach((x) => x.toggleAttribute("aria-current", x === b));
+  window.scrollTo({ top: $(".mtabs").offsetTop - 60, behavior: "smooth" });
+}));

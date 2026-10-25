@@ -29,28 +29,34 @@
       <span class="pick-help">실제 서비스에서는 견적서 PDF, 엑셀, 메일 본문을 올리면 AI가 항목을 추출합니다</span>
     </div>
 
-    <div class="grid">
-      <section class="card">
+    <nav class="mtabs" aria-label="영역">
+      <button type="button" data-t="items">항목</button>
+      <button type="button" data-t="diag" aria-current="true">진단 <span class="count" id="count-m">0</span></button>
+      <button type="button" data-t="memo">확인 요청</button>
+      <button type="button" data-t="prog">지원사업</button>
+    </nav>
+    <div class="grid" data-active="diag">
+      <section class="card" data-t="items">
         <h2 class="card-title">② 항목 분해 <small>AI 추출 결과, 금액을 고치면 진단이 바로 바뀝니다</small></h2>
         <dl class="meta" id="meta"></dl>
         <ol id="items" class="list"></ol>
         <p class="total">총액(원화 환산) <b id="total"></b></p>
       </section>
 
-      <section class="card">
+      <section class="card" data-t="diag">
         <h2 class="card-title">③ 진단 <span class="count" id="count">0</span></h2>
         <div id="gauge"></div>
         <ul class="findings" id="findings"></ul>
         <p class="note">항목을 누르면 비교에 쓴 기준과 판정 규칙이 펼쳐집니다.</p>
       </section>
 
-      <section class="card">
+      <section class="card" data-t="memo">
         <h2 class="card-title">④ 포워더 확인 요청 메모 <small>진단 결과로 생성</small></h2>
         <textarea id="memo" aria-label="확인 요청 메모"></textarea>
         <div class="actions"><button type="button" class="btn secondary small" id="copy">복사</button></div>
       </section>
 
-      <section class="card">
+      <section class="card" data-t="prog">
         <h2 class="card-title">⑤ 신청을 검토할 지원사업</h2>
         <ul class="programs" id="programs"></ul>
         <p class="note">요건과 운영 여부는 각 공고문에서 확인해야 합니다. 서비스가 자격을 확정하지 않습니다.</p>
