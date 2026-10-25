@@ -1,123 +1,168 @@
-// 진단 규칙은 결정적 코드다. LLM은 실제 서비스에서 견적서 해석과 설명 문장만 맡는다.
+// 진단 규칙은 결정적 코드다. 실제 서비스에서 LLM은 견적서 해석, 항목 분류, 설명 문장만 맡는다.
 const $ = (s) => document.querySelector(s);
+const $$ = (s) => [...document.querySelectorAll(s)];
 const won = (n) => Math.round(n).toLocaleString("ko-KR") + "원";
 const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
+const fmt = (it) => (it.cur === "USD" ? usd(it.amount) : won(it.amount));
 
-let quote = null;
+const KIND = { OF: "운임", LSS: "운임", THC: "부대", DOC: "부대", BLFEE: "부대", WHARFAGE: "부대", SEAL: "부대",
+  AMS: "수수료", ENS: "수수료", HANDLING: "수수료", SERVICE: "수수료", CUSTOMS: "수수료", TRUCK: "육상" };
+// 사전 생성한 AI 분류 신뢰도 예시. 약어나 모호한 이름일수록 낮다.
+const CONF = { "WFG": 0.81, "Service Charge": 0.74, "O/F": 0.93, "B/L Issuance Fee": 0.88 };
 
-function position(ratio) {
-  if (ratio < 0.9) return { key: "low", text: "시장보다 낮음" };
-  if (ratio <= 1.1) return { key: "ok", text: "시장권" };
-  if (ratio <= 1.25) return { key: "warn", text: "다소 높음" };
-  return { key: "high", text: "높음" };
+let quote = null, step = 1, result = null;
+
+function position(r) {
+  if (r < 0.9) return { k: "low", t: "시장보다 낮음" };
+  if (r <= 1.1) return { k: "ok", t: "시장권" };
+  if (r <= 1.25) return { k: "warn", t: "다소 높음" };
+  return { k: "bad", t: "높음" };
 }
 
 function diagnose(q) {
-  const findings = [];
+  const F = [];
   const toKRW = (it) => (it.cur === "USD" ? it.amount * q.fx : it.amount);
   const codes = q.items.map((i) => i.code);
 
-  // 1. 해상운임 vs KCCI 권역 운임
   const of = q.items.find((i) => i.code === "OF");
   const bench = REF.kcci.routes[q.route];
-  let ofResult = null;
+  let ofr = null;
   if (of && bench) {
-    const ratio = of.amount / bench;
-    ofResult = { amount: of.amount, bench, ratio, pos: position(ratio) };
-    if (ratio > 1.1)
-      findings.push({ level: ratio > 1.25 ? "high" : "warn", title: "해상운임이 KCCI 권역 운임보다 높습니다",
-        detail: `${q.route} KCCI ${usd(bench)} 대비 ${Math.round((ratio - 1) * 100)}% 높습니다. KCCI에는 포워더 마진이 없으므로 차이 전체가 과다 청구는 아닙니다.`,
-        ask: `해상운임 ${usd(of.amount)}의 선사와 적용 기간을 알려 주시고, ${q.route} 시장 수준(KCCI ${usd(bench)})과의 차이를 설명해 주실 수 있을까요?` });
+    const r = of.amount / bench;
+    ofr = { amount: of.amount, bench, r, pos: position(r) };
+    if (r > 1.1) F.push({ lv: r > 1.25 ? "bad" : "warn", title: "해상운임이 KCCI 권역 운임보다 높습니다",
+      detail: `${q.route} KCCI ${usd(bench)} 대비 ${Math.round((r - 1) * 100)}% 높습니다.`,
+      basis: [["견적", `${of.raw} ${usd(of.amount)}`], ["기준", `KCCI ${q.route} ${usd(bench)} (${REF.kcci.asOf}, ${REF.kcci.unit})`],
+        ["판정", "KCCI 대비 +10% 초과는 다소 높음, +25% 초과는 높음 (설정값)"], ["주의", "KCCI에는 포워더 마진이 없으므로 차이 전체가 과다 청구를 뜻하지는 않습니다."]],
+      ask: `해상운임 ${usd(of.amount)}의 선사와 적용 기간을 알려 주시고, ${q.route} 시장 수준(KCCI ${usd(bench)})과의 차이를 설명해 주실 수 있을까요?` });
   }
 
-  // 2. 부대비용 vs 선사 공표 요금 범위
   q.items.forEach((it) => {
     const ref = REF.published[it.code];
     if (!ref) return;
-    const v = toKRW(it);
-    if (v > ref.max)
-      findings.push({ level: "warn", title: `${ref.label}가 공표 요금 범위를 넘습니다`,
-        detail: `견적 ${won(v)}, 선사 공표 범위 ${won(ref.min)}~${won(ref.max)}.`,
-        ask: `${it.raw} ${won(v)}이 선사 공표 요금(${won(ref.max)} 이하)보다 높은 이유를 알려 주세요.` });
+    const mid = (ref.min + ref.max) / 2, v = toKRW(it);
+    if (v > mid * 1.1) F.push({ lv: "warn", title: `${ref.label}가 선사 공표 요금보다 높습니다`,
+      detail: `견적 ${won(v)}, 공표 기준 ${won(mid)}의 +${Math.round((v / mid - 1) * 100)}%.`,
+      basis: [["견적", `${it.raw} ${won(v)}`], ["기준", `선사 공표 요금 ${won(ref.min)}~${won(ref.max)}, 평균 ${won(mid)} (예시값)`],
+        ["판정", "공표 평균 대비 +10% 초과 (운임공표제의 허용 편차를 참고한 설정값)"]],
+      ask: `${it.raw} ${won(v)}이 선사 공표 요금(평균 ${won(mid)})보다 높은 이유를 알려 주세요.` });
   });
 
-  // 3. 이름만 다른 중복 수수료
   REF.dupGroups.forEach((g) => {
     const hit = q.items.filter((i) => g.codes.includes(i.code));
-    if (hit.length > 1)
-      findings.push({ level: "warn", title: `${g.name}가 중복된 것으로 보입니다`,
-        detail: hit.map((h) => `${h.raw} ${h.cur === "USD" ? usd(h.amount) : won(h.amount)}`).join(", ") + " 항목의 성격이 같습니다.",
-        ask: `${hit.map((h) => h.raw).join("와 ")}가 각각 어떤 업무에 대한 비용인지 구분해 주세요.` });
+    if (hit.length > 1) F.push({ lv: "warn", title: `${g.name}가 중복된 것으로 보입니다`,
+      detail: hit.map((h) => `${h.raw} ${fmt(h)}`).join(", "),
+      basis: [...hit.map((h) => ["견적", `${h.raw} ${fmt(h)}`]), ["판정", "같은 성격으로 분류된 항목이 두 개 이상 (규칙)"]],
+      ask: `${hit.map((h) => h.raw).join("와 ")}가 각각 어떤 업무에 대한 비용인지 구분해 주세요.` });
   });
 
-  // 4. 항로와 맞지 않는 사전신고
   Object.entries(REF.filings).forEach(([code, routes]) => {
-    if (codes.includes(code) && !routes.includes(q.route))
-      findings.push({ level: "high", title: `${code}는 이 항로에 해당하지 않습니다`,
-        detail: `${code}는 ${routes.join(", ")} 항로의 사전신고입니다. ${q.route} 항로에는 청구되지 않아야 합니다.`,
-        ask: `${q.route} 항로 견적에 ${code} 항목이 포함된 이유를 확인 부탁드립니다.` });
+    if (codes.includes(code) && !routes.includes(q.route)) F.push({ lv: "bad", title: `${code}는 이 항로에 해당하지 않습니다`,
+      detail: `${code}는 ${routes.join(", ")} 항로의 사전신고입니다.`,
+      basis: [["견적", `${q.route} 항로에 ${code} 포함`], ["기준", `${code} 적용 항로: ${routes.join(", ")}`], ["판정", "항로와 신고 종류 불일치 (규칙)"]],
+      ask: `${q.route} 항로 견적에 ${code} 항목이 포함된 이유를 확인 부탁드립니다.` });
   });
 
-  // 5. 견적에 빠진 조건 (나중에 청구될 수 있음)
-  if (!q.freeTime)
-    findings.push({ level: "warn", title: "프리타임 조건이 없습니다",
-      detail: "Demurrage, Detention(반납 지연료)은 견적에 없다가 나중에 청구되는 대표 항목입니다.",
-      ask: "목적지 Demurrage, Detention 프리타임과 초과 시 일 단가를 견적에 명시해 주세요." });
-  if (!q.validity)
-    findings.push({ level: "info", title: "견적 유효기간이 없습니다", detail: "운임은 주 단위로 바뀝니다.",
-      ask: "이 견적의 유효기간을 알려 주세요." });
+  if (!q.freeTime) F.push({ lv: "warn", title: "프리타임 조건이 없습니다", detail: "Demurrage, Detention은 견적에 없다가 나중에 청구되는 대표 항목입니다.",
+    basis: [["견적", "프리타임 기재 없음"], ["판정", "필수 조건 체크리스트 (규칙)"]],
+    ask: "목적지 Demurrage, Detention 프리타임과 초과 시 일 단가를 견적에 명시해 주세요." });
+  if (!q.validity) F.push({ lv: "info", title: "견적 유효기간이 없습니다", detail: "운임은 주 단위로 바뀝니다.",
+    basis: [["견적", "유효기간 기재 없음"], ["판정", "필수 조건 체크리스트 (규칙)"]], ask: "이 견적의 유효기간을 알려 주세요." });
 
-  const total = q.items.reduce((s, i) => s + toKRW(i), 0);
-  return { findings, ofResult, total };
+  return { F, ofr, total: q.items.reduce((s, i) => s + toKRW(i), 0) };
 }
 
 function renderItems() {
-  $("#items").innerHTML = quote.items.map((it, idx) => `
-    <tr>
-      <td>${it.raw}</td>
-      <td><span class="tag">${CODE_LABEL[it.code] || it.code}</span></td>
-      <td class="num"><input type="number" value="${it.amount}" data-idx="${idx}" aria-label="${it.raw} 금액"> ${it.cur}</td>
-    </tr>`).join("");
-  document.querySelectorAll("#items input").forEach((el) =>
-    el.addEventListener("input", (e) => { quote.items[+e.target.dataset.idx].amount = +e.target.value || 0; renderDiagnosis(); }));
+  $("#items-head").hidden = $("#items").hidden = $("#items-fine").hidden = false;
+  $("#items-title").textContent = `${quote.forwarder} 견적, 항목 ${quote.items.length}개`;
+  $("#items").innerHTML = quote.items.map((it, i) => {
+    const c = CONF[it.raw] ?? 0.97, k = KIND[it.code] || "수수료";
+    return `<li class="row" style="animation-delay:${i * 40}ms">
+      <span class="kind" data-k="${k}">${k}</span>
+      <span class="row-text"><span class="row-title">${it.raw}</span>
+        <span class="row-sub ${c < 0.85 ? "low" : ""}">${CODE_LABEL[it.code] || it.code}, 분류 신뢰도 ${Math.round(c * 100)}%${c < 0.85 ? ", 확인 필요" : ""}</span></span>
+      <span class="amt"><input type="number" value="${it.amount}" data-i="${i}" aria-label="${it.raw} 금액">${it.cur}</span></li>`;
+  }).join("");
+  $$("#items input").forEach((el) => el.addEventListener("input", (e) => { quote.items[+e.target.dataset.i].amount = +e.target.value || 0; }));
 }
 
-function renderDiagnosis() {
-  const { findings, ofResult, total } = diagnose(quote);
-  const g = $("#gauge");
-  if (ofResult) {
-    const pct = Math.max(0, Math.min(100, ((ofResult.ratio - 0.6) / 0.9) * 100));
-    g.innerHTML = `
-      <div class="gauge-head"><b>해상운임 시장 대비 위치</b><span class="pill ${ofResult.pos.key}">${ofResult.pos.text}</span></div>
-      <div class="bar"><span class="band"></span><span class="marker" style="left:${pct}%"></span></div>
-      <div class="bar-legend"><span>낮음</span><span>KCCI ${quote.route} ${usd(ofResult.bench)}</span><span>높음</span></div>
-      <p class="muted">견적 ${usd(ofResult.amount)}, KCCI 대비 ${ofResult.ratio >= 1 ? "+" : ""}${Math.round((ofResult.ratio - 1) * 100)}% (기준일 ${REF.kcci.asOf}, ${REF.kcci.unit})</p>`;
-  } else g.innerHTML = `<p class="muted">비교할 KCCI 항로가 없습니다.</p>`;
+function fillCond() {
+  const f = $("#cond");
+  $$("#cond [name=route]").forEach((s) => (s.innerHTML = Object.keys(REF.kcci.routes).map((r) => `<option>${r}</option>`).join("")));
+  ["pol", "pod", "route", "equip", "incoterms", "validity", "freeTime", "fx"].forEach((n) => (f[n].value = quote[n] ?? ""));
+}
+function readCond() {
+  const f = $("#cond");
+  ["pod", "route", "equip", "incoterms", "validity", "freeTime"].forEach((n) => (quote[n] = f[n].value.trim()));
+  quote.fx = +f.fx.value || quote.fx;
+}
 
-  $("#total").textContent = won(total) + ` (환율 ${quote.fx}원 적용)`;
-  $("#findings").innerHTML = findings.length
-    ? findings.map((f) => `<li class="f ${f.level}"><b>${f.title}</b><p>${f.detail}</p></li>`).join("")
-    : `<li class="f ok"><b>특이사항이 없습니다</b><p>규칙으로 확인한 범위에서는 문제가 보이지 않습니다.</p></li>`;
-  const asks = findings.map((f) => f.ask).filter(Boolean);
-  $("#memo").value = asks.length
-    ? `${quote.forwarder} 담당자님께,\n\n보내 주신 ${quote.pol}→${quote.pod} ${quote.equip} 견적 관련하여 몇 가지 확인 부탁드립니다.\n\n` +
-      asks.map((a, i) => `${i + 1}. ${a}`).join("\n") + `\n\n감사합니다.`
-    : "확인 요청할 항목이 없습니다.";
+function renderResult() {
+  result = diagnose(quote);
+  const { F, ofr, total } = result;
+  const n = F.filter((f) => f.lv !== "info").length;
+  $("#h3").innerHTML = n ? `확인할 항목이<br>${n}개 있습니다` : "특별히 확인할<br>항목이 없습니다";
+  $("#lede3").textContent = `${quote.pol} → ${quote.pod} ${quote.equip} 견적을 KOBC 운임지수와 선사 공표 요금에 비춰 봤습니다.`;
+  const pos = ofr ? ofr.pos : { k: "", t: "비교 불가" };
+  $("#summary").innerHTML = [
+    [won(total), "총액(원화 환산)", ""], [pos.t, "해상운임 시장 대비", pos.k === "low" ? "ok" : pos.k],
+    [`${n}개`, "확인할 항목", n ? "warn" : "ok"], [`${REF.programs.length}개`, "검토할 지원사업", ""],
+  ].map(([b, s, c]) => `<div class="tile ${c}"><b>${b}</b><span>${s}</span></div>`).join("");
+
+  $("#gauge").innerHTML = ofr ? `<h2 class="card-title">해상운임 시장 대비 위치 <span class="pill ${ofr.pos.k}">${ofr.pos.t}</span></h2>
+    <div class="bar"><span class="marker" style="left:${Math.max(0, Math.min(100, ((ofr.r - 0.6) / 0.9) * 100))}%"></span></div>
+    <div class="bar-legend"><span>낮음</span><span>KCCI ${quote.route} ${usd(ofr.bench)}</span><span>높음</span></div>
+    <p class="note">견적 ${usd(ofr.amount)}, KCCI 대비 ${ofr.r >= 1 ? "+" : ""}${Math.round((ofr.r - 1) * 100)}%. 기준일 ${REF.kcci.asOf}, ${REF.kcci.unit}. KCCI에는 포워더 마진과 부대비용이 없으므로 차이가 곧 부당 청구를 뜻하지는 않습니다.</p>`
+    : `<h2 class="card-title">해상운임 시장 대비 위치</h2><p class="note">비교할 KCCI 항로가 없습니다.</p>`;
+
+  $("#findings").innerHTML = F.length ? F.map((f, i) => `<li data-i="${i}" tabindex="0"><span class="dot ${f.lv}"></span><span><b>${f.title}</b><p>${f.detail}</p></span></li>`).join("")
+    : `<li><span class="dot ok"></span><span><b>규칙으로 확인한 범위에서 문제가 없습니다</b></span></li>`;
+  $$("#findings li[data-i]").forEach((li) => { li.onclick = li.onkeydown = (e) => { if (e.type === "click" || e.key === "Enter") openPanel(+li.dataset.i); }; });
+
+  const asks = F.map((f) => f.ask);
+  $("#memo").value = asks.length ? `${quote.forwarder} 담당자님께,\n\n보내 주신 ${quote.pol}→${quote.pod} ${quote.equip} 견적 관련하여 몇 가지 확인 부탁드립니다.\n\n` +
+    asks.map((a, i) => `${i + 1}. ${a}`).join("\n") + "\n\n감사합니다." : "확인 요청할 항목이 없습니다.";
   $("#programs").innerHTML = REF.programs.map((p) => `<li><b>${p.name}</b><span>${p.who}</span><p>${p.note}</p></li>`).join("");
-  $("#count").textContent = findings.filter((f) => f.level !== "info").length;
+  $("#panel").innerHTML = `<p class="panel-empty">항목을 누르면<br>비교에 쓴 기준과 출처가 여기에 나옵니다</p>`;
+}
+
+function openPanel(i) {
+  const f = result.F[i];
+  $$("#findings li").forEach((li) => li.setAttribute("aria-selected", li.dataset.i == i));
+  $("#panel").innerHTML = `<span class="pill ${f.lv === "bad" ? "bad" : f.lv === "warn" ? "warn" : "low"}">${f.lv === "bad" ? "확인 필요" : f.lv === "warn" ? "주의" : "참고"}</span>
+    <p class="claim">${f.title}</p>${f.basis.map(([k, v]) => `<div class="quote"><b>${k}</b>${v}</div>`).join("")}`;
+}
+
+function go(n) {
+  if (n === 3) { readCond(); renderResult(); }
+  step = n;
+  $$(".screen").forEach((s) => (s.hidden = +s.dataset.step !== n));
+  $$(".step-tab").forEach((t) => { t.toggleAttribute("aria-current", +t.dataset.go === n); if (+t.dataset.go === n) t.setAttribute("aria-current", "step"); });
+  $$(".step-tab").forEach((t) => (t.disabled = !quote || +t.dataset.go > Math.max(n, step)));
+  $(".cta-bar").hidden = n === 3;
+  document.body.style.paddingBottom = n === 3 ? "48px" : "";
+  $("#back").hidden = n === 1;
+  $("#next").hidden = n === 3;
+  $("#next").textContent = n === 1 ? "조건 확인" : "진단하기";
+  $("#status").textContent = n === 1 && quote ? "항목을 확인했다면 다음으로 넘어가세요" : n === 3 ? "진단 규칙은 실제로 동작합니다. 견적과 공표 요금은 예시 데이터입니다." : "";
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function load(key) {
   quote = structuredClone(SAMPLES[key]);
-  document.querySelectorAll(".sample").forEach((b) => b.setAttribute("aria-pressed", b.dataset.key === key));
-  $("#meta").innerHTML = [
-    ["포워더", quote.forwarder], ["구간", `${quote.pol} → ${quote.pod}`], ["KCCI 항로", quote.route],
-    ["장비", quote.equip], ["인코텀즈", quote.incoterms], ["유효기간", quote.validity || "없음"], ["프리타임", quote.freeTime || "없음"],
-  ].map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join("");
+  $$(".chip").forEach((b) => b.setAttribute("aria-pressed", b.dataset.key === key));
   renderItems();
-  renderDiagnosis();
+  fillCond();
+  $("#next").disabled = false;
+  $$(".step-tab")[1].disabled = false;
+  $("#status").textContent = "항목을 확인했다면 다음으로 넘어가세요";
 }
 
-document.querySelectorAll(".sample").forEach((b) => b.addEventListener("click", () => load(b.dataset.key)));
+$$(".chip").forEach((b) => b.addEventListener("click", () => load(b.dataset.key)));
+$$(".step-tab").forEach((t) => t.addEventListener("click", () => go(+t.dataset.go)));
+$("#next").addEventListener("click", () => go(step + 1));
+$("#back").addEventListener("click", () => go(step - 1));
 $("#copy").addEventListener("click", () => { navigator.clipboard?.writeText($("#memo").value); $("#copy").textContent = "복사됨"; setTimeout(() => ($("#copy").textContent = "복사"), 1200); });
-load(new URLSearchParams(location.search).get("q") || "normal");
+
+const p = new URLSearchParams(location.search);
+if (p.get("q")) { load(p.get("q")); go(+p.get("step") || 1); }
