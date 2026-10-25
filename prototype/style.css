@@ -140,3 +140,25 @@ textarea { width: 100%; min-height: 220px; border: 0; border-radius: var(--r-inp
 .panel .quote { margin: 0 0 10px; padding: 12px 14px; border-radius: 12px; background: var(--fill); border-left: 3px solid var(--accent); font-size: 14px; animation: rowIn .35s var(--ease) both; }
 .panel .quote b { display: block; margin-bottom: 2px; font-size: 12px; color: var(--text-3); }
 @media (max-width: 920px) { .result { grid-template-columns: 1fr; } .panel { position: static; } .summary { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+
+/* 한 페이지 구성 */
+body { padding-bottom: 48px; }
+.page { padding-top: 28px; }
+.page > .lede { max-width: 760px; }
+.pick { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 20px; }
+.pick-label { font-weight: 700; margin-right: 4px; }
+.pick-help { flex-basis: 100%; font-size: 13px; color: var(--text-3); }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+.card-title small { font-size: 13px; font-weight: 500; color: var(--text-3); }
+.count { font-size: 13px; font-weight: 700; color: #fff; background: var(--bad); border-radius: 999px; padding: 0 9px; }
+.meta { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin: 0 0 14px; }
+.meta div { background: var(--fill); border-radius: 12px; padding: 8px 12px; }
+.meta dt { font-size: 12px; color: var(--text-3); } .meta dd { margin: 0; font-weight: 600; }
+.card .list { box-shadow: none; border-radius: 0; background: transparent; }
+.card .row { padding-left: 0; padding-right: 0; }
+.total { margin: 12px 0 0; text-align: right; color: var(--text-3); font-size: 14px; } .total b { color: var(--text); }
+.findings { margin-top: 16px; }
+.findings .basis { grid-column: 2; display: grid; gap: 8px; margin-top: 8px; }
+.findings .quote { padding: 10px 12px; border-radius: 12px; background: var(--surface); border-left: 3px solid var(--accent); font-size: 13px; animation: rowIn .3s var(--ease) both; }
+.findings .quote b { display: inline; font-size: 12px; color: var(--text-3); margin-right: 6px; }
+@media (max-width: 920px) { .grid { grid-template-columns: 1fr; } }

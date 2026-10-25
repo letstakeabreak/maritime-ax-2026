@@ -10,7 +10,7 @@ const KIND = { OF: "운임", LSS: "운임", THC: "부대", DOC: "부대", BLFEE:
 // 사전 생성한 AI 분류 신뢰도 예시. 약어나 모호한 이름일수록 낮다.
 const CONF = { "WFG": 0.81, "Service Charge": 0.74, "O/F": 0.93, "B/L Issuance Fee": 0.88 };
 
-let quote = null, step = 1, result = null;
+let quote = null, result = null;
 
 function position(r) {
   if (r < 0.9) return { k: "low", t: "시장보다 낮음" };
@@ -73,96 +73,54 @@ function diagnose(q) {
 }
 
 function renderItems() {
-  $("#items-head").hidden = $("#items").hidden = $("#items-fine").hidden = false;
-  $("#items-title").textContent = `${quote.forwarder} 견적, 항목 ${quote.items.length}개`;
+  $("#meta").innerHTML = [["포워더", quote.forwarder], ["구간", `${quote.pol} → ${quote.pod}`], ["KCCI 항로", quote.route],
+    ["장비", quote.equip], ["인코텀즈", quote.incoterms], ["유효기간", quote.validity || "없음"], ["프리타임", quote.freeTime || "없음"]]
+    .map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join("");
   $("#items").innerHTML = quote.items.map((it, i) => {
     const c = CONF[it.raw] ?? 0.97, k = KIND[it.code] || "수수료";
-    return `<li class="row" style="animation-delay:${i * 40}ms">
+    return `<li class="row" style="animation-delay:${i * 30}ms">
       <span class="kind" data-k="${k}">${k}</span>
       <span class="row-text"><span class="row-title">${it.raw}</span>
         <span class="row-sub ${c < 0.85 ? "low" : ""}">${CODE_LABEL[it.code] || it.code}, 분류 신뢰도 ${Math.round(c * 100)}%${c < 0.85 ? ", 확인 필요" : ""}</span></span>
       <span class="amt"><input type="number" value="${it.amount}" data-i="${i}" aria-label="${it.raw} 금액">${it.cur}</span></li>`;
   }).join("");
-  $$("#items input").forEach((el) => el.addEventListener("input", (e) => { quote.items[+e.target.dataset.i].amount = +e.target.value || 0; }));
-}
-
-function fillCond() {
-  const f = $("#cond");
-  $$("#cond [name=route]").forEach((s) => (s.innerHTML = Object.keys(REF.kcci.routes).map((r) => `<option>${r}</option>`).join("")));
-  ["pol", "pod", "route", "equip", "incoterms", "validity", "freeTime", "fx"].forEach((n) => (f[n].value = quote[n] ?? ""));
-}
-function readCond() {
-  const f = $("#cond");
-  ["pod", "route", "equip", "incoterms", "validity", "freeTime"].forEach((n) => (quote[n] = f[n].value.trim()));
-  quote.fx = +f.fx.value || quote.fx;
+  $$("#items input").forEach((el) => el.addEventListener("input", (e) => { quote.items[+e.target.dataset.i].amount = +e.target.value || 0; renderResult(); }));
 }
 
 function renderResult() {
   result = diagnose(quote);
   const { F, ofr, total } = result;
-  const n = F.filter((f) => f.lv !== "info").length;
-  $("#h3").innerHTML = n ? `확인할 항목이<br>${n}개 있습니다` : "특별히 확인할<br>항목이 없습니다";
-  $("#lede3").textContent = `${quote.pol} → ${quote.pod} ${quote.equip} 견적을 KOBC 운임지수와 선사 공표 요금에 비춰 봤습니다.`;
-  const pos = ofr ? ofr.pos : { k: "", t: "비교 불가" };
-  $("#summary").innerHTML = [
-    [won(total), "총액(원화 환산)", ""], [pos.t, "해상운임 시장 대비", pos.k === "low" ? "ok" : pos.k],
-    [`${n}개`, "확인할 항목", n ? "warn" : "ok"], [`${REF.programs.length}개`, "검토할 지원사업", ""],
-  ].map(([b, s, c]) => `<div class="tile ${c}"><b>${b}</b><span>${s}</span></div>`).join("");
-
-  $("#gauge").innerHTML = ofr ? `<h2 class="card-title">해상운임 시장 대비 위치 <span class="pill ${ofr.pos.k}">${ofr.pos.t}</span></h2>
+  $("#total").textContent = `${won(total)} (환율 ${quote.fx}원 적용)`;
+  $("#count").textContent = F.filter((f) => f.lv !== "info").length;
+  $("#gauge").innerHTML = ofr ? `<div class="card-title" style="font-size:15px;margin:0">해상운임 시장 대비 위치 <span class="pill ${ofr.pos.k}">${ofr.pos.t}</span></div>
     <div class="bar"><span class="marker" style="left:${Math.max(0, Math.min(100, ((ofr.r - 0.6) / 0.9) * 100))}%"></span></div>
     <div class="bar-legend"><span>낮음</span><span>KCCI ${quote.route} ${usd(ofr.bench)}</span><span>높음</span></div>
     <p class="note">견적 ${usd(ofr.amount)}, KCCI 대비 ${ofr.r >= 1 ? "+" : ""}${Math.round((ofr.r - 1) * 100)}%. 기준일 ${REF.kcci.asOf}, ${REF.kcci.unit}. KCCI에는 포워더 마진과 부대비용이 없으므로 차이가 곧 부당 청구를 뜻하지는 않습니다.</p>`
-    : `<h2 class="card-title">해상운임 시장 대비 위치</h2><p class="note">비교할 KCCI 항로가 없습니다.</p>`;
-
-  $("#findings").innerHTML = F.length ? F.map((f, i) => `<li data-i="${i}" tabindex="0"><span class="dot ${f.lv}"></span><span><b>${f.title}</b><p>${f.detail}</p></span></li>`).join("")
+    : `<p class="note">비교할 KCCI 항로가 없습니다.</p>`;
+  $("#findings").innerHTML = F.length ? F.map((f, i) => `<li data-i="${i}" tabindex="0" aria-expanded="false"><span class="dot ${f.lv}"></span><span><b>${f.title}</b><p>${f.detail}</p></span></li>`).join("")
     : `<li><span class="dot ok"></span><span><b>규칙으로 확인한 범위에서 문제가 없습니다</b></span></li>`;
-  $$("#findings li[data-i]").forEach((li) => { li.onclick = li.onkeydown = (e) => { if (e.type === "click" || e.key === "Enter") openPanel(+li.dataset.i); }; });
-
+  $$("#findings li[data-i]").forEach((li) => { li.onclick = li.onkeydown = (e) => { if (e.type === "click" || e.key === "Enter") toggle(li); }; });
   const asks = F.map((f) => f.ask);
   $("#memo").value = asks.length ? `${quote.forwarder} 담당자님께,\n\n보내 주신 ${quote.pol}→${quote.pod} ${quote.equip} 견적 관련하여 몇 가지 확인 부탁드립니다.\n\n` +
     asks.map((a, i) => `${i + 1}. ${a}`).join("\n") + "\n\n감사합니다." : "확인 요청할 항목이 없습니다.";
   $("#programs").innerHTML = REF.programs.map((p) => `<li><b>${p.name}</b><span>${p.who}</span><p>${p.note}</p></li>`).join("");
-  $("#panel").innerHTML = `<p class="panel-empty">항목을 누르면<br>비교에 쓴 기준과 출처가 여기에 나옵니다</p>`;
 }
 
-function openPanel(i) {
-  const f = result.F[i];
-  $$("#findings li").forEach((li) => li.setAttribute("aria-selected", li.dataset.i == i));
-  $("#panel").innerHTML = `<span class="pill ${f.lv === "bad" ? "bad" : f.lv === "warn" ? "warn" : "low"}">${f.lv === "bad" ? "확인 필요" : f.lv === "warn" ? "주의" : "참고"}</span>
-    <p class="claim">${f.title}</p>${f.basis.map(([k, v]) => `<div class="quote"><b>${k}</b>${v}</div>`).join("")}`;
-}
-
-function go(n) {
-  if (n === 3) { readCond(); renderResult(); }
-  step = n;
-  $$(".screen").forEach((s) => (s.hidden = +s.dataset.step !== n));
-  $$(".step-tab").forEach((t) => { t.toggleAttribute("aria-current", +t.dataset.go === n); if (+t.dataset.go === n) t.setAttribute("aria-current", "step"); });
-  $$(".step-tab").forEach((t) => (t.disabled = !quote || +t.dataset.go > Math.max(n, step)));
-  $(".cta-bar").hidden = n === 3;
-  document.body.style.paddingBottom = n === 3 ? "48px" : "";
-  $("#back").hidden = n === 1;
-  $("#next").hidden = n === 3;
-  $("#next").textContent = n === 1 ? "조건 확인" : "진단하기";
-  $("#status").textContent = n === 1 && quote ? "항목을 확인했다면 다음으로 넘어가세요" : n === 3 ? "진단 규칙은 실제로 동작합니다. 견적과 공표 요금은 예시 데이터입니다." : "";
-  window.scrollTo({ top: 0, behavior: "smooth" });
+function toggle(li) {
+  const open = li.getAttribute("aria-expanded") === "true";
+  li.querySelector(".basis")?.remove();
+  li.setAttribute("aria-expanded", !open);
+  li.setAttribute("aria-selected", !open);
+  if (!open) li.insertAdjacentHTML("beforeend", `<div class="basis">${result.F[+li.dataset.i].basis.map(([k, v]) => `<div class="quote"><b>${k}</b>${v}</div>`).join("")}</div>`);
 }
 
 function load(key) {
   quote = structuredClone(SAMPLES[key]);
   $$(".chip").forEach((b) => b.setAttribute("aria-pressed", b.dataset.key === key));
   renderItems();
-  fillCond();
-  $("#next").disabled = false;
-  $$(".step-tab")[1].disabled = false;
-  $("#status").textContent = "항목을 확인했다면 다음으로 넘어가세요";
+  renderResult();
 }
 
 $$(".chip").forEach((b) => b.addEventListener("click", () => load(b.dataset.key)));
-$$(".step-tab").forEach((t) => t.addEventListener("click", () => go(+t.dataset.go)));
-$("#next").addEventListener("click", () => go(step + 1));
-$("#back").addEventListener("click", () => go(step - 1));
 $("#copy").addEventListener("click", () => { navigator.clipboard?.writeText($("#memo").value); $("#copy").textContent = "복사됨"; setTimeout(() => ($("#copy").textContent = "복사"), 1200); });
-
-const p = new URLSearchParams(location.search);
-if (p.get("q")) { load(p.get("q")); go(+p.get("step") || 1); }
+load(new URLSearchParams(location.search).get("q") || "normal");
