@@ -94,7 +94,9 @@ function parseOpenAIResponse(json) {
     amount: typeof it.amount === "number" && Number.isFinite(it.amount) && it.amount >= 0 ? it.amount : null,
     currency: typeof it.currency === "string" ? it.currency.toUpperCase().slice(0, 3) : null,
     unreadable: Array.isArray(it.unreadable) ? it.unreadable : [],
-    needsConfirmation: Boolean(it.needsConfirmation) || it.amount == null || !it.currency,
+    needsConfirmation: Boolean(it.needsConfirmation) || it.amount == null || !it.currency || /[만천억]/.test(it.unit || ""),
+    // "21만원"을 21 KRW, 단위 "만원"으로 읽은 사례가 있어(벤치마크 Q10) 한글 금액 단위는 반드시 확인하게 한다.
+    reason: /[만천억]/.test(it.unit || "") ? `금액 단위가 '${it.unit}'로 적혀 있어 실제 금액 확인이 필요합니다.` : it.reason,
   }));
   data.unreadable = Array.isArray(data.unreadable) ? data.unreadable : [];
   return { ok: true, data };

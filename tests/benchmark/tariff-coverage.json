@@ -1,0 +1,240 @@
+[
+ {
+  "pod": "USLAX",
+  "windowDays": 90,
+  "total": 257,
+  "returned": 20,
+  "newest": "20261029",
+  "oldestReturned": "20260813",
+  "companies": 4,
+  "fees": {
+   "OF": 20,
+   "OTHC": 20,
+   "DOC": 20,
+   "WHARFAGE": 20,
+   "SEAL": 20,
+   "ETC": 20,
+   "BAF": 5,
+   "LSS": 5
+  },
+  "containers": [
+   "20 feet dry",
+   "40 feet dry",
+   "40 feet reefer"
+  ],
+  "fetchedAt": "2026-10-29T17:19:35.521Z"
+ },
+ {
+  "pod": "USNYC",
+  "windowDays": 90,
+  "total": 146,
+  "returned": 20,
+  "newest": "20261029",
+  "oldestReturned": "20261027",
+  "companies": 4,
+  "fees": {
+   "OF": 19,
+   "OTHC": 20,
+   "DOC": 20,
+   "WHARFAGE": 20,
+   "SEAL": 20,
+   "ETC": 20,
+   "EBS": 2
+  },
+  "containers": [
+   "20 feet dry",
+   "20 feet reefer",
+   "40 feet dry",
+   "40 feet reefer"
+  ],
+  "fetchedAt": "2026-10-29T17:19:39.688Z"
+ },
+ {
+  "pod": "NLRTM",
+  "windowDays": 90,
+  "total": 310,
+  "returned": 20,
+  "newest": "20261027",
+  "oldestReturned": "20260811",
+  "companies": 4,
+  "fees": {
+   "OF": 20,
+   "BAF": 10,
+   "OTHC": 20,
+   "DOC": 20,
+   "WHARFAGE": 20,
+   "SEAL": 20,
+   "ETC": 20,
+   "LSS": 10,
+   "DTHC": 8
+  },
+  "containers": [
+   "20 feet dry",
+   "20 feet reefer",
+   "40 feet dry",
+   "40 feet reefer"
+  ],
+  "fetchedAt": "2026-10-29T17:19:42.559Z"
+ },
+ {
+  "pod": "DEHAM",
+  "windowDays": 90,
+  "total": 310,
+  "returned": 20,
+  "newest": "20261027",
+  "oldestReturned": "20260811",
+  "companies": 4,
+  "fees": {
+   "OF": 20,
+   "BAF": 10,
+   "OTHC": 20,
+   "DOC": 20,
+   "WHARFAGE": 20,
+   "SEAL": 20,
+   "ETC": 20,
+   "LSS": 10,
+   "DTHC": 8
+  },
+  "containers": [
+   "20 feet dry",
+   "20 feet reefer",
+   "40 feet dry",
+   "40 feet reefer"
+  ],
+  "fetchedAt": "2026-10-29T17:19:46.086Z"
+ },
+ {
+  "pod": "ITGOA",
+  "windowDays": 90,
+  "total": 276,
+  "returned": 20,
+  "newest": "20261027",
+  "oldestReturned": "20261027",
+  "companies": 1,
+  "fees": {
+   "OF": 20,
+   "BAF": 20,
+   "OTHC": 20,
+   "DOC": 20,
+   "WHARFAGE": 20,
+   "SEAL": 20,
+   "ETC": 20
+  },
+  "containers": [
+   "20 feet dry",
+   "20 feet reefer",
+   "40 feet dry",
+   "40 feet reefer"
+  ],
+  "fetchedAt": "2026-10-29T17:19:49.137Z"
+ },
+ {
+  "pod": "CNSHA",
+  "windowDays": 90,
+  "total": 616,
+  "returned": 20,
+  "newest": "20261029",
+  "oldestReturned": "20260814",
+  "companies": 2,
+  "fees": {
+   "OF": 20,
+   "BAF": 8,
+   "LSS": 8,
+   "EBS": 8,
+   "OTHC": 20,
+   "DTHC": 12,
+   "DOC": 20,
+   "DO": 8,
+   "WHARFAGE": 20,
+   "SEAL": 14,
+   "ETC": 8
+  },
+  "containers": [
+   "20 feet dry",
+   "40 feet dry"
+  ],
+  "fetchedAt": "2026-10-29T17:19:52.448Z"
+ },
+ {
+  "pod": "JPTYO",
+  "windowDays": 90,
+  "total": 668,
+  "returned": 20,
+  "newest": "20261029",
+  "oldestReturned": "20260901",
+  "companies": 1,
+  "fees": {
+   "OF": 20,
+   "BAF": 20,
+   "EBS": 20,
+   "OTHC": 20,
+   "DTHC": 20,
+   "DOC": 20,
+   "DO": 20,
+   "WHARFAGE": 20,
+   "SEAL": 20,
+   "ETC": 20
+  },
+  "containers": [
+   "20 feet dry",
+   "20 feet reefer",
+   "40 feet dry",
+   "40 feet reefer"
+  ],
+  "fetchedAt": "2026-10-29T17:19:55.364Z"
+ },
+ {
+  "pod": "SGSIN",
+  "windowDays": 90,
+  "total": 391,
+  "returned": 20,
+  "newest": "20261028",
+  "oldestReturned": "20261019",
+  "companies": 3,
+  "fees": {
+   "OF": 20,
+   "OTHC": 20,
+   "DTHC": 20,
+   "DOC": 20,
+   "DO": 6,
+   "WHARFAGE": 20,
+   "SEAL": 20,
+   "ETC": 6,
+   "LSS": 8
+  },
+  "containers": [
+   "20 feet dry",
+   "20 feet reefer",
+   "40 feet dry",
+   "40 feet reefer"
+  ],
+  "fetchedAt": "2026-10-29T17:19:58.207Z"
+ },
+ {
+  "pod": "VNSGN",
+  "windowDays": 90,
+  "total": 597,
+  "returned": 20,
+  "newest": "20261027",
+  "oldestReturned": "20261016",
+  "companies": 3,
+  "fees": {
+   "OF": 20,
+   "OTHC": 20,
+   "DTHC": 20,
+   "DOC": 20,
+   "WHARFAGE": 20,
+   "SEAL": 20,
+   "ETC": 20,
+   "LSS": 14,
+   "DO": 2
+  },
+  "containers": [
+   "20 feet dry",
+   "20 feet reefer",
+   "20 feet tank",
+   "40 feet dry"
+  ],
+  "fetchedAt": "2026-10-29T17:20:01.124Z"
+ }
+]

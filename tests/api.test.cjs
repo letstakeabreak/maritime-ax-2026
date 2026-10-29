@@ -184,3 +184,28 @@ test("tariff widens an empty 90-day window and merges the first and last pages s
   assert.equal(calls.length, 3);
   assert.match(calls[2], /pageNo=3/);
 });
+
+test("an amount read with a Korean unit such as 만원 is always sent to confirmation", () => {
+  const json = { output: [{ content: [{ type: "output_text", text: JSON.stringify({ meta: aiResult.meta, unreadable: [], items: [
+    { raw: "THC", category: "THC", amount: 21, currency: "KRW", unit: "만원", includedInOceanFreight: null, condition: null, unreadable: [], needsConfirmation: false, reason: null },
+  ] }) }] }] };
+  const r = extract.parseOpenAIResponse(json);
+  assert.equal(r.data.items[0].needsConfirmation, true);
+  assert.match(r.data.items[0].reason, /만원/);
+});
+
+test("benchmark scorer matches items and catches amounts that are not in the source text", () => {
+  const { scoreQuote } = require(path.join(__dirname, "benchmark", "score.cjs"));
+  const q = { text: "O/F USD 3,000\nTHC KRW 210,000\nDOC at cost", items: [
+    { raw: "O/F", cat: ["OF"], amount: 3000, cur: ["USD"] },
+    { raw: "THC", cat: ["THC"], amount: 210000, cur: ["KRW"] },
+    { raw: "DOC", cat: ["DOC"], amount: null, cur: [null], unclear: true },
+  ] };
+  const r = scoreQuote(q, [
+    { raw: "O/F", category: "OF", amount: 3000, currency: "USD", needsConfirmation: false },
+    { raw: "THC", category: "THC", amount: 21000, currency: "KRW", needsConfirmation: false },
+    { raw: "DOC", category: "DOC", amount: null, currency: null, needsConfirmation: true },
+  ]);
+  assert.deepEqual([r.tp, r.gt, r.amountOk, r.amountChecked, r.unclearFlagged], [3, 3, 2, 3, 1]);
+  assert.deepEqual(r.hallucinated, ["THC=21000"]);
+});

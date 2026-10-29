@@ -1,0 +1,2491 @@
+{
+  "runAt": "2026-10-29T17:32:35.961Z",
+  "endpoint": "https://unim-lens.vercel.app/api/extract",
+  "model": "gpt-5-mini-2025-08-07",
+  "failures": 0,
+  "all": {
+    "quotes": 23,
+    "gtItems": 141,
+    "predItems": 143,
+    "recall": 97.9,
+    "precision": 100,
+    "amountExact": 96.4,
+    "currency": 100,
+    "category": 99.3,
+    "hallucinatedAmounts": 0,
+    "unclearFlagged": "11/11",
+    "clearFalselyFlagged": "36/127",
+    "latencyMs": {
+      "median": 23324,
+      "p90": 31402,
+      "max": 38870
+    }
+  },
+  "text": {
+    "quotes": 15,
+    "gtItems": 90,
+    "predItems": 92,
+    "recall": 96.7,
+    "precision": 100,
+    "amountExact": 94.2,
+    "currency": 100,
+    "category": 98.9,
+    "hallucinatedAmounts": 0,
+    "unclearFlagged": "9/9",
+    "clearFalselyFlagged": "26/78",
+    "latencyMs": {
+      "median": 23324,
+      "p90": 34881,
+      "max": 38870
+    }
+  },
+  "png": {
+    "quotes": 5,
+    "gtItems": 31,
+    "predItems": 31,
+    "recall": 100,
+    "precision": 100,
+    "amountExact": 100,
+    "currency": 100,
+    "category": 100,
+    "hallucinatedAmounts": 0,
+    "unclearFlagged": "1/1",
+    "clearFalselyFlagged": "5/30",
+    "latencyMs": {
+      "median": 23992,
+      "p90": 31402,
+      "max": 31402
+    }
+  },
+  "pdf": {
+    "quotes": 3,
+    "gtItems": 20,
+    "predItems": 20,
+    "recall": 100,
+    "precision": 100,
+    "amountExact": 100,
+    "currency": 100,
+    "category": 100,
+    "hallucinatedAmounts": 0,
+    "unclearFlagged": "1/1",
+    "clearFalselyFlagged": "5/19",
+    "latencyMs": {
+      "median": 22856,
+      "p90": 26306,
+      "max": 26306
+    }
+  },
+  "rows": [
+    {
+      "id": "Q01",
+      "format": "text",
+      "gt": 9,
+      "pred": 9,
+      "tp": 9,
+      "matchedOptional": 0,
+      "falsePositive": 0,
+      "amountChecked": 9,
+      "amountOk": 9,
+      "curChecked": 9,
+      "curOk": 9,
+      "catOk": 9,
+      "hallucinated": [],
+      "unclear": 0,
+      "unclearFlagged": 0,
+      "clear": 9,
+      "clearFlagged": 0,
+      "missed": [],
+      "wrong": [],
+      "ms": 19774,
+      "model": "gpt-5-mini-2025-08-07",
+      "response": [
+        {
+          "raw": "Ocean Freight",
+          "category": "OF",
+          "amount": 7600,
+          "currency": "USD",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "THC",
+          "category": "THC",
+          "amount": 210000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "Document Fee",
+          "category": "DOC",
+          "amount": 45000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "Wharfage",
+          "category": "WHARFAGE",
+          "amount": 9500,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "Seal Charge",
+          "category": "SEAL",
+          "amount": 10000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "AMS Filing",
+          "category": "AMS",
+          "amount": 35,
+          "currency": "USD",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "Handling Charge",
+          "category": "HANDLING",
+          "amount": 30000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "통관수수료",
+          "category": "CUSTOMS",
+          "amount": 30000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "내륙운송 (평택→부산신항)",
+          "category": "TRUCK",
+          "amount": 480000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "id": "Q02",
+      "format": "text",
+      "gt": 7,
+      "pred": 7,
+      "tp": 7,
+      "matchedOptional": 0,
+      "falsePositive": 0,
+      "amountChecked": 7,
+      "amountOk": 7,
+      "curChecked": 7,
+      "curOk": 7,
+      "catOk": 7,
+      "hallucinated": [],
+      "unclear": 0,
+      "unclearFlagged": 0,
+      "clear": 7,
+      "clearFlagged": 7,
+      "missed": [],
+      "wrong": [],
+      "ms": 29646,
+      "model": "gpt-5-mini-2025-08-07",
+      "response": [
+        {
+          "raw": "O/F",
+          "category": "OF",
+          "amount": 4600,
+          "currency": "USD",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위(예: 컨테이너/BL 등) 표기 없음"
+        },
+        {
+          "raw": "LSS",
+          "category": "LSS",
+          "amount": 120,
+          "currency": "USD",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위(예: 컨테이너/BL 등) 표기 없음"
+        },
+        {
+          "raw": "THC",
+          "category": "THC",
+          "amount": 215000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위(예: 컨테이너/BL 등) 표기 없음"
+        },
+        {
+          "raw": "DOC FEE",
+          "category": "DOC",
+          "amount": 50000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위(예: 컨테이너/BL 등) 표기 없음"
+        },
+        {
+          "raw": "WFG",
+          "category": "WHARFAGE",
+          "amount": 9500,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위(예: 컨테이너/BL 등) 표기 없음"
+        },
+        {
+          "raw": "ENS",
+          "category": "ENS",
+          "amount": 30,
+          "currency": "USD",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위(예: 건당/선사비 등) 표기 없음"
+        },
+        {
+          "raw": "Handling",
+          "category": "HANDLING",
+          "amount": 35000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위(예: 컨테이너/BL 등) 표기 없음"
+        }
+      ]
+    },
+    {
+      "id": "Q03",
+      "format": "text",
+      "gt": 8,
+      "pred": 8,
+      "tp": 8,
+      "matchedOptional": 0,
+      "falsePositive": 0,
+      "amountChecked": 8,
+      "amountOk": 8,
+      "curChecked": 8,
+      "curOk": 8,
+      "catOk": 8,
+      "hallucinated": [],
+      "unclear": 0,
+      "unclearFlagged": 0,
+      "clear": 8,
+      "clearFlagged": 8,
+      "missed": [],
+      "wrong": [],
+      "ms": 30440,
+      "model": "gpt-5-mini-2025-08-07",
+      "response": [
+        {
+          "raw": "Ocean Freight",
+          "category": "OF",
+          "amount": 3550,
+          "currency": "USD",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위 미기재, 확인 필요"
+        },
+        {
+          "raw": "THC",
+          "category": "THC",
+          "amount": 260000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위 미기재, 확인 필요"
+        },
+        {
+          "raw": "Documentation Fee",
+          "category": "DOC",
+          "amount": 50000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위 미기재, 확인 필요"
+        },
+        {
+          "raw": "B/L Issuance Fee",
+          "category": "BLFEE",
+          "amount": 50000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위 미기재, 확인 필요"
+        },
+        {
+          "raw": "AMS",
+          "category": "AMS",
+          "amount": 35,
+          "currency": "USD",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위 미기재, 확인 필요"
+        },
+        {
+          "raw": "Handling Charge",
+          "category": "HANDLING",
+          "amount": 60000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위 미기재, 확인 필요"
+        },
+        {
+          "raw": "Service Charge",
+          "category": "SERVICE",
+          "amount": 40000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위 미기재, 확인 필요"
+        },
+        {
+          "raw": "Seal",
+          "category": "SEAL",
+          "amount": 10000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위 미기재, 확인 필요"
+        }
+      ]
+    },
+    {
+      "id": "Q04",
+      "format": "png",
+      "gt": 7,
+      "pred": 7,
+      "tp": 7,
+      "matchedOptional": 0,
+      "falsePositive": 0,
+      "amountChecked": 7,
+      "amountOk": 7,
+      "curChecked": 7,
+      "curOk": 7,
+      "catOk": 7,
+      "hallucinated": [],
+      "unclear": 0,
+      "unclearFlagged": 0,
+      "clear": 7,
+      "clearFlagged": 2,
+      "missed": [],
+      "wrong": [],
+      "ms": 28773,
+      "model": "gpt-5-mini-2025-08-07",
+      "response": [
+        {
+          "raw": "해상운임(O/F)",
+          "category": "OF",
+          "amount": 9850,
+          "currency": "USD",
+          "unit": "CNTR",
+          "includedInOceanFreight": null,
+          "condition": "CNTR",
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "AMS",
+          "category": "AMS",
+          "amount": 35,
+          "currency": "USD",
+          "unit": "BL",
+          "includedInOceanFreight": null,
+          "condition": "BL",
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "THC",
+          "category": "THC",
+          "amount": 215000,
+          "currency": "KRW",
+          "unit": "CNTR",
+          "includedInOceanFreight": null,
+          "condition": "CNTR",
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "서류발급비",
+          "category": "DOC",
+          "amount": 50000,
+          "currency": "KRW",
+          "unit": "BL",
+          "includedInOceanFreight": null,
+          "condition": "BL",
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "부두사용료",
+          "category": "WHARFAGE",
+          "amount": 9630,
+          "currency": "KRW",
+          "unit": "CNTR",
+          "includedInOceanFreight": null,
+          "condition": "CNTR",
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "씰비",
+          "category": "SEAL",
+          "amount": 10000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위 미기재"
+        },
+        {
+          "raw": "통관수수료",
+          "category": "CUSTOMS",
+          "amount": 33000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위 미기재"
+        }
+      ]
+    },
+    {
+      "id": "Q05",
+      "format": "pdf",
+      "gt": 8,
+      "pred": 8,
+      "tp": 8,
+      "matchedOptional": 0,
+      "falsePositive": 0,
+      "amountChecked": 8,
+      "amountOk": 8,
+      "curChecked": 8,
+      "curOk": 8,
+      "catOk": 8,
+      "hallucinated": [],
+      "unclear": 0,
+      "unclearFlagged": 0,
+      "clear": 8,
+      "clearFlagged": 0,
+      "missed": [],
+      "wrong": [],
+      "ms": 22856,
+      "model": "gpt-5-mini-2025-08-07",
+      "response": [
+        {
+          "raw": "O/F",
+          "category": "OF",
+          "amount": 3320,
+          "currency": "USD",
+          "unit": "/40HC",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "BAF",
+          "category": "BAF",
+          "amount": 410,
+          "currency": "USD",
+          "unit": "/40HC",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "LSS",
+          "category": "LSS",
+          "amount": 95,
+          "currency": "USD",
+          "unit": "/40HC",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "ENS",
+          "category": "ENS",
+          "amount": 35,
+          "currency": "USD",
+          "unit": "/BL",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "THC",
+          "category": "THC",
+          "amount": 215000,
+          "currency": "KRW",
+          "unit": "/40HC",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "DOC",
+          "category": "DOC",
+          "amount": 50000,
+          "currency": "KRW",
+          "unit": "/BL",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "WFG",
+          "category": "WHARFAGE",
+          "amount": 9630,
+          "currency": "KRW",
+          "unit": "/40HC",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "SEAL",
+          "category": "SEAL",
+          "amount": 10000,
+          "currency": "KRW",
+          "unit": "/40HC",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "id": "Q06",
+      "format": "text",
+      "gt": 5,
+      "pred": 8,
+      "tp": 5,
+      "matchedOptional": 3,
+      "falsePositive": 0,
+      "amountChecked": 5,
+      "amountOk": 5,
+      "curChecked": 4,
+      "curOk": 4,
+      "catOk": 5,
+      "hallucinated": [],
+      "unclear": 1,
+      "unclearFlagged": 1,
+      "clear": 4,
+      "clearFlagged": 0,
+      "missed": [],
+      "wrong": [],
+      "ms": 38870,
+      "model": "gpt-5-mini-2025-08-07",
+      "response": [
+        {
+          "raw": "O/F",
+          "category": "OF",
+          "amount": 3150,
+          "currency": "USD",
+          "unit": "/40'",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "BAF incl.",
+          "category": "BAF",
+          "amount": null,
+          "currency": null,
+          "unit": null,
+          "includedInOceanFreight": true,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": true,
+          "reason": null
+        },
+        {
+          "raw": "CAF incl.",
+          "category": "CAF",
+          "amount": null,
+          "currency": null,
+          "unit": null,
+          "includedInOceanFreight": true,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": true,
+          "reason": null
+        },
+        {
+          "raw": "THC",
+          "category": "THC",
+          "amount": 215000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "DOC",
+          "category": "DOC",
+          "amount": 45000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "CFS chg",
+          "category": "OTHER",
+          "amount": null,
+          "currency": null,
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": "at cost",
+          "unreadable": [
+            "amount",
+            "currency"
+          ],
+          "needsConfirmation": true,
+          "reason": "실비로 금액 및 통화 미기재"
+        },
+        {
+          "raw": "H/C",
+          "category": "HANDLING",
+          "amount": 30000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "** subject to GRI 11/15 **",
+          "category": "OTHER",
+          "amount": null,
+          "currency": null,
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": "subject to GRI 11/15",
+          "unreadable": [],
+          "needsConfirmation": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "id": "Q07",
+      "format": "text",
+      "gt": 7,
+      "pred": 7,
+      "tp": 7,
+      "matchedOptional": 0,
+      "falsePositive": 0,
+      "amountChecked": 7,
+      "amountOk": 7,
+      "curChecked": 6,
+      "curOk": 6,
+      "catOk": 6,
+      "hallucinated": [],
+      "unclear": 1,
+      "unclearFlagged": 1,
+      "clear": 6,
+      "clearFlagged": 0,
+      "missed": [],
+      "wrong": [
+        "CIS(중국 신고비): CUSTOMS 30 USD"
+      ],
+      "ms": 20423,
+      "model": "gpt-5-mini-2025-08-07",
+      "response": [
+        {
+          "raw": "O/F:",
+          "category": "OF",
+          "amount": 280,
+          "currency": "USD",
+          "unit": "20'",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "THC:",
+          "category": "THC",
+          "amount": 130000,
+          "currency": "KRW",
+          "unit": "20'",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "DOC:",
+          "category": "DOC",
+          "amount": 40000,
+          "currency": "KRW",
+          "unit": "BL",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "CIS(중국 신고비):",
+          "category": "CUSTOMS",
+          "amount": 30,
+          "currency": "USD",
+          "unit": "BL",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "WHARFAGE:",
+          "category": "WHARFAGE",
+          "amount": 4815,
+          "currency": "KRW",
+          "unit": "20'",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "내륙운송(시화→인천항):",
+          "category": "TRUCK",
+          "amount": 220000,
+          "currency": "KRW",
+          "unit": "대",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "통관:",
+          "category": "CUSTOMS",
+          "amount": null,
+          "currency": null,
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": "실비 청구",
+          "unreadable": [
+            "amount",
+            "currency",
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "금액 미기재(실비 청구)"
+        }
+      ]
+    },
+    {
+      "id": "Q08",
+      "format": "png",
+      "gt": 6,
+      "pred": 6,
+      "tp": 6,
+      "matchedOptional": 0,
+      "falsePositive": 0,
+      "amountChecked": 6,
+      "amountOk": 6,
+      "curChecked": 5,
+      "curOk": 5,
+      "catOk": 6,
+      "hallucinated": [],
+      "unclear": 1,
+      "unclearFlagged": 1,
+      "clear": 5,
+      "clearFlagged": 2,
+      "missed": [],
+      "wrong": [],
+      "ms": 23992,
+      "model": "gpt-5-mini-2025-08-07",
+      "response": [
+        {
+          "raw": "Ocean freight",
+          "category": "OF",
+          "amount": 450,
+          "currency": "USD",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "BAF",
+          "category": "BAF",
+          "amount": 120,
+          "currency": "USD",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "CAF",
+          "category": "CAF",
+          "amount": null,
+          "currency": null,
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": "5% of O/F",
+          "unreadable": [
+            "amount",
+            "currency",
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "비율(%)로 표기되어 금액/통화/단위 불명"
+        },
+        {
+          "raw": "THC",
+          "category": "THC",
+          "amount": 180000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위(컨테이너당 등) 표기 없음"
+        },
+        {
+          "raw": "DOC FEE",
+          "category": "DOC",
+          "amount": 50000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위(컨테이너당/건당 등) 표기 없음"
+        },
+        {
+          "raw": "D/O at destination",
+          "category": "OTHER",
+          "amount": 6000,
+          "currency": "JPY",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": "collect",
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "id": "Q09",
+      "format": "text",
+      "gt": 6,
+      "pred": 6,
+      "tp": 6,
+      "matchedOptional": 0,
+      "falsePositive": 0,
+      "amountChecked": 5,
+      "amountOk": 5,
+      "curChecked": 5,
+      "curOk": 5,
+      "catOk": 6,
+      "hallucinated": [],
+      "unclear": 1,
+      "unclearFlagged": 1,
+      "clear": 5,
+      "clearFlagged": 0,
+      "missed": [],
+      "wrong": [],
+      "ms": 22971,
+      "model": "gpt-5-mini-2025-08-07",
+      "response": [
+        {
+          "raw": "O/F",
+          "category": "OF",
+          "amount": 380,
+          "currency": "USD",
+          "unit": "/40HC",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "LSS",
+          "category": "LSS",
+          "amount": 40,
+          "currency": "USD",
+          "unit": "/40HC",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "THC",
+          "category": "THC",
+          "amount": null,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": "터미널에 따라 상이",
+          "unreadable": [
+            "amount"
+          ],
+          "needsConfirmation": true,
+          "reason": "금액이 범위(180,000~220,000)로 제시되어 있어 확정 필요"
+        },
+        {
+          "raw": "DOC",
+          "category": "DOC",
+          "amount": 50000,
+          "currency": "KRW",
+          "unit": "/BL",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "Seal",
+          "category": "SEAL",
+          "amount": 8000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "Handling",
+          "category": "HANDLING",
+          "amount": 25000,
+          "currency": "KRW",
+          "unit": "/BL",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "id": "Q10",
+      "format": "text",
+      "gt": 5,
+      "pred": 5,
+      "tp": 5,
+      "matchedOptional": 0,
+      "falsePositive": 0,
+      "amountChecked": 5,
+      "amountOk": 3,
+      "curChecked": 4,
+      "curOk": 4,
+      "catOk": 5,
+      "hallucinated": [],
+      "unclear": 1,
+      "unclearFlagged": 1,
+      "clear": 4,
+      "clearFlagged": 0,
+      "missed": [],
+      "wrong": [
+        "THC: THC 21 KRW",
+        "서류비: DOC 5 KRW"
+      ],
+      "ms": 23324,
+      "model": "gpt-5-mini-2025-08-07",
+      "response": [
+        {
+          "raw": "운임",
+          "category": "OF",
+          "amount": 7900,
+          "currency": "USD",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "THC",
+          "category": "THC",
+          "amount": 21,
+          "currency": "KRW",
+          "unit": "만원",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "서류비",
+          "category": "DOC",
+          "amount": 5,
+          "currency": "KRW",
+          "unit": "만원",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "AMS",
+          "category": "AMS",
+          "amount": 35,
+          "currency": "USD",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "핸들링은 별도 협의",
+          "category": "HANDLING",
+          "amount": null,
+          "currency": null,
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": "별도 협의",
+          "unreadable": [
+            "amount",
+            "currency"
+          ],
+          "needsConfirmation": true,
+          "reason": "금액 미기재, 별도 협의"
+        }
+      ]
+    },
+    {
+      "id": "Q11",
+      "format": "pdf",
+      "gt": 6,
+      "pred": 6,
+      "tp": 6,
+      "matchedOptional": 0,
+      "falsePositive": 0,
+      "amountChecked": 6,
+      "amountOk": 6,
+      "curChecked": 5,
+      "curOk": 5,
+      "catOk": 6,
+      "hallucinated": [],
+      "unclear": 1,
+      "unclearFlagged": 1,
+      "clear": 5,
+      "clearFlagged": 0,
+      "missed": [],
+      "wrong": [],
+      "ms": 26306,
+      "model": "gpt-5-mini-2025-08-07",
+      "response": [
+        {
+          "raw": "ALL-IN RATE",
+          "category": "OF",
+          "amount": 11200,
+          "currency": "USD",
+          "unit": "/40HC",
+          "includedInOceanFreight": true,
+          "condition": "(O/F + BAF + EBS incl.)",
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "AMS",
+          "category": "AMS",
+          "amount": 35,
+          "currency": "USD",
+          "unit": "/BL",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "ISF filing",
+          "category": "AMS",
+          "amount": 25,
+          "currency": "USD",
+          "unit": "/BL",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "THC",
+          "category": "THC",
+          "amount": 215000,
+          "currency": "KRW",
+          "unit": "/40HC",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "DOC",
+          "category": "DOC",
+          "amount": 50000,
+          "currency": "KRW",
+          "unit": "/BL",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "Chassis usage at destination",
+          "category": "OTHER",
+          "amount": null,
+          "currency": null,
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": "TBA",
+          "unreadable": [
+            "amount",
+            "currency",
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "금액·통화 미기재 (TBA)"
+        }
+      ]
+    },
+    {
+      "id": "Q12",
+      "format": "png",
+      "gt": 7,
+      "pred": 7,
+      "tp": 7,
+      "matchedOptional": 0,
+      "falsePositive": 0,
+      "amountChecked": 7,
+      "amountOk": 7,
+      "curChecked": 7,
+      "curOk": 7,
+      "catOk": 7,
+      "hallucinated": [],
+      "unclear": 0,
+      "unclearFlagged": 0,
+      "clear": 7,
+      "clearFlagged": 0,
+      "missed": [],
+      "wrong": [],
+      "ms": 15934,
+      "model": "gpt-5-mini-2025-08-07",
+      "response": [
+        {
+          "raw": "해상운임",
+          "category": "OF",
+          "amount": 7450,
+          "currency": "USD",
+          "unit": "40HC",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "저유황할증료",
+          "category": "LSS",
+          "amount": 60,
+          "currency": "USD",
+          "unit": "40HC",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "긴급유류할증료",
+          "category": "EBS",
+          "amount": 150,
+          "currency": "USD",
+          "unit": "40HC",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "터미널작업비",
+          "category": "THC",
+          "amount": 215000,
+          "currency": "KRW",
+          "unit": "40HC",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "B/L 발급비",
+          "category": "BLFEE",
+          "amount": 50000,
+          "currency": "KRW",
+          "unit": "BL",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "부두사용료",
+          "category": "WHARFAGE",
+          "amount": 9630,
+          "currency": "KRW",
+          "unit": "40HC",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "미국신고(AMS)",
+          "category": "AMS",
+          "amount": 35,
+          "currency": "USD",
+          "unit": "BL",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "id": "Q13",
+      "format": "text",
+      "gt": 6,
+      "pred": 6,
+      "tp": 6,
+      "matchedOptional": 0,
+      "falsePositive": 0,
+      "amountChecked": 6,
+      "amountOk": 6,
+      "curChecked": 6,
+      "curOk": 6,
+      "catOk": 6,
+      "hallucinated": [],
+      "unclear": 0,
+      "unclearFlagged": 0,
+      "clear": 6,
+      "clearFlagged": 0,
+      "missed": [],
+      "wrong": [],
+      "ms": 21126,
+      "model": "gpt-5-mini-2025-08-07",
+      "response": [
+        {
+          "raw": "O/F EUR 3,400 / 40HC",
+          "category": "OF",
+          "amount": 3400,
+          "currency": "EUR",
+          "unit": "/ 40HC",
+          "includedInOceanFreight": null,
+          "condition": "/ 40HC",
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "BAF EUR 280 / 40HC",
+          "category": "BAF",
+          "amount": 280,
+          "currency": "EUR",
+          "unit": "/ 40HC",
+          "includedInOceanFreight": null,
+          "condition": "/ 40HC",
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "ENS EUR 25 / BL",
+          "category": "ENS",
+          "amount": 25,
+          "currency": "EUR",
+          "unit": "/ BL",
+          "includedInOceanFreight": null,
+          "condition": "/ BL",
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "THC KRW 215,000",
+          "category": "THC",
+          "amount": 215000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "DOC KRW 50,000",
+          "category": "DOC",
+          "amount": 50000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "Seal KRW 10,000",
+          "category": "SEAL",
+          "amount": 10000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "id": "Q14",
+      "format": "text",
+      "gt": 7,
+      "pred": 7,
+      "tp": 7,
+      "matchedOptional": 0,
+      "falsePositive": 0,
+      "amountChecked": 7,
+      "amountOk": 7,
+      "curChecked": 7,
+      "curOk": 7,
+      "catOk": 7,
+      "hallucinated": [],
+      "unclear": 0,
+      "unclearFlagged": 0,
+      "clear": 7,
+      "clearFlagged": 7,
+      "missed": [],
+      "wrong": [],
+      "ms": 22290,
+      "model": "gpt-5-mini-2025-08-07",
+      "response": [
+        {
+          "raw": "O/F",
+          "category": "OF",
+          "amount": 3600,
+          "currency": "USD",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위(예: 컨테이너당)가 명시되어 있지 않음"
+        },
+        {
+          "raw": "THC",
+          "category": "THC",
+          "amount": 215000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위(예: 컨테이너당)가 명시되어 있지 않음"
+        },
+        {
+          "raw": "Documentation fee",
+          "category": "DOC",
+          "amount": 50000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위(예: 건당/BL당)가 명시되어 있지 않음"
+        },
+        {
+          "raw": "B/L fee",
+          "category": "BLFEE",
+          "amount": 40000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위(예: 건당/BL당)가 명시되어 있지 않음"
+        },
+        {
+          "raw": "Telex release fee",
+          "category": "DOC",
+          "amount": 30000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위(예: 건당/BL당)가 명시되어 있지 않음"
+        },
+        {
+          "raw": "Handling charge",
+          "category": "HANDLING",
+          "amount": 50000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위(예: 컨테이너당/건당)가 명시되어 있지 않음"
+        },
+        {
+          "raw": "Service charge",
+          "category": "SERVICE",
+          "amount": 30000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위(예: 건당/컨테이너당)가 명시되어 있지 않음"
+        }
+      ]
+    },
+    {
+      "id": "Q15",
+      "format": "text",
+      "gt": 3,
+      "pred": 3,
+      "tp": 3,
+      "matchedOptional": 0,
+      "falsePositive": 0,
+      "amountChecked": 3,
+      "amountOk": 3,
+      "curChecked": 3,
+      "curOk": 3,
+      "catOk": 3,
+      "hallucinated": [],
+      "unclear": 3,
+      "unclearFlagged": 3,
+      "clear": 0,
+      "clearFlagged": 0,
+      "missed": [],
+      "wrong": [],
+      "ms": 16499,
+      "model": "gpt-5-mini-2025-08-07",
+      "response": [
+        {
+          "raw": "O/F",
+          "category": "OF",
+          "amount": 3900,
+          "currency": null,
+          "unit": "/40HC",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "currency"
+          ],
+          "needsConfirmation": true,
+          "reason": "통화 미표기 확인 필요"
+        },
+        {
+          "raw": "THC",
+          "category": "THC",
+          "amount": 215000,
+          "currency": null,
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "currency"
+          ],
+          "needsConfirmation": true,
+          "reason": "통화 미표기 확인 필요"
+        },
+        {
+          "raw": "DOC",
+          "category": "DOC",
+          "amount": 50000,
+          "currency": null,
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "currency"
+          ],
+          "needsConfirmation": true,
+          "reason": "통화 미표기 확인 필요"
+        }
+      ]
+    },
+    {
+      "id": "Q16",
+      "format": "png",
+      "gt": 6,
+      "pred": 6,
+      "tp": 6,
+      "matchedOptional": 0,
+      "falsePositive": 0,
+      "amountChecked": 6,
+      "amountOk": 6,
+      "curChecked": 6,
+      "curOk": 6,
+      "catOk": 6,
+      "hallucinated": [],
+      "unclear": 0,
+      "unclearFlagged": 0,
+      "clear": 6,
+      "clearFlagged": 1,
+      "missed": [],
+      "wrong": [],
+      "ms": 31402,
+      "model": "gpt-5-mini-2025-08-07",
+      "response": [
+        {
+          "raw": "Ocean Freight (BAF incl.)",
+          "category": "OF",
+          "amount": 3950,
+          "currency": "USD",
+          "unit": "40HC",
+          "includedInOceanFreight": null,
+          "condition": "per 40HC",
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "LSS",
+          "category": "LSS",
+          "amount": 75,
+          "currency": "USD",
+          "unit": "40HC",
+          "includedInOceanFreight": null,
+          "condition": "per 40HC",
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "ENS",
+          "category": "ENS",
+          "amount": 30,
+          "currency": "USD",
+          "unit": "BL",
+          "includedInOceanFreight": null,
+          "condition": "per BL",
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "THC",
+          "category": "THC",
+          "amount": 215000,
+          "currency": "KRW",
+          "unit": "40HC",
+          "includedInOceanFreight": null,
+          "condition": "per 40HC",
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "DOC",
+          "category": "DOC",
+          "amount": 50000,
+          "currency": "KRW",
+          "unit": "BL",
+          "includedInOceanFreight": null,
+          "condition": "per BL",
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "부산신항 셔틀 운송",
+          "category": "TRUCK",
+          "amount": 150000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위(컨테이너/BL 등)가 명시되어 있지 않음"
+        }
+      ]
+    },
+    {
+      "id": "Q17",
+      "format": "png",
+      "gt": 5,
+      "pred": 5,
+      "tp": 5,
+      "matchedOptional": 0,
+      "falsePositive": 0,
+      "amountChecked": 5,
+      "amountOk": 5,
+      "curChecked": 5,
+      "curOk": 5,
+      "catOk": 5,
+      "hallucinated": [],
+      "unclear": 0,
+      "unclearFlagged": 0,
+      "clear": 5,
+      "clearFlagged": 0,
+      "missed": [],
+      "wrong": [],
+      "ms": 23112,
+      "model": "gpt-5-mini-2025-08-07",
+      "response": [
+        {
+          "raw": "O/F",
+          "category": "OF",
+          "amount": 2950,
+          "currency": "USD",
+          "unit": "/40'HC",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "T.H.C",
+          "category": "THC",
+          "amount": 215000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "DOC",
+          "category": "DOC",
+          "amount": 50000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "WHF",
+          "category": "WHARFAGE",
+          "amount": 9630,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "SEAL",
+          "category": "SEAL",
+          "amount": 10000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "id": "Q18",
+      "format": "text",
+      "gt": 5,
+      "pred": 5,
+      "tp": 5,
+      "matchedOptional": 0,
+      "falsePositive": 0,
+      "amountChecked": 5,
+      "amountOk": 5,
+      "curChecked": 5,
+      "curOk": 5,
+      "catOk": 5,
+      "hallucinated": [],
+      "unclear": 1,
+      "unclearFlagged": 1,
+      "clear": 4,
+      "clearFlagged": 0,
+      "missed": [],
+      "wrong": [],
+      "ms": 27141,
+      "model": "gpt-5-mini-2025-08-07",
+      "response": [
+        {
+          "raw": "O/F /40HC subject to space availability",
+          "category": "OF",
+          "amount": 3700,
+          "currency": "USD",
+          "unit": "/40HC",
+          "includedInOceanFreight": null,
+          "condition": "subject to space availability",
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "PSS /40HC (effective 11/15 if applied)",
+          "category": "BAF",
+          "amount": 300,
+          "currency": "USD",
+          "unit": "/40HC",
+          "includedInOceanFreight": null,
+          "condition": "effective 11/15 if applied",
+          "unreadable": [],
+          "needsConfirmation": true,
+          "reason": "적용 여부 확인 필요"
+        },
+        {
+          "raw": "THC",
+          "category": "THC",
+          "amount": 215000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "DOC",
+          "category": "DOC",
+          "amount": 50000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "ENS",
+          "category": "ENS",
+          "amount": 30,
+          "currency": "USD",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "id": "Q19",
+      "format": "text",
+      "gt": 6,
+      "pred": 6,
+      "tp": 6,
+      "matchedOptional": 0,
+      "falsePositive": 0,
+      "amountChecked": 6,
+      "amountOk": 6,
+      "curChecked": 5,
+      "curOk": 5,
+      "catOk": 6,
+      "hallucinated": [],
+      "unclear": 1,
+      "unclearFlagged": 1,
+      "clear": 5,
+      "clearFlagged": 0,
+      "missed": [],
+      "wrong": [],
+      "ms": 21252,
+      "model": "gpt-5-mini-2025-08-07",
+      "response": [
+        {
+          "raw": "O/F USD 25 /CBM",
+          "category": "OF",
+          "amount": 25,
+          "currency": "USD",
+          "unit": "/CBM",
+          "includedInOceanFreight": null,
+          "condition": "/CBM",
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "CFS KRW 18,000 /CBM",
+          "category": "HANDLING",
+          "amount": 18000,
+          "currency": "KRW",
+          "unit": "/CBM",
+          "includedInOceanFreight": null,
+          "condition": "/CBM",
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "THC KRW 9,000 /CBM",
+          "category": "THC",
+          "amount": 9000,
+          "currency": "KRW",
+          "unit": "/CBM",
+          "includedInOceanFreight": null,
+          "condition": "/CBM",
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "DOC KRW 50,000 /BL",
+          "category": "DOC",
+          "amount": 50000,
+          "currency": "KRW",
+          "unit": "/BL",
+          "includedInOceanFreight": null,
+          "condition": "/BL",
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "AMS USD 35 /BL",
+          "category": "AMS",
+          "amount": 35,
+          "currency": "USD",
+          "unit": "/BL",
+          "includedInOceanFreight": null,
+          "condition": "/BL",
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "Bonded warehouse: at cost",
+          "category": "OTHER",
+          "amount": null,
+          "currency": null,
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": "at cost",
+          "unreadable": [
+            "amount",
+            "currency",
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "금액·통화 미기재, 'at cost'로 실비 청구"
+        }
+      ]
+    },
+    {
+      "id": "Q20",
+      "format": "pdf",
+      "gt": 6,
+      "pred": 6,
+      "tp": 6,
+      "matchedOptional": 0,
+      "falsePositive": 0,
+      "amountChecked": 6,
+      "amountOk": 6,
+      "curChecked": 6,
+      "curOk": 6,
+      "catOk": 6,
+      "hallucinated": [],
+      "unclear": 0,
+      "unclearFlagged": 0,
+      "clear": 6,
+      "clearFlagged": 5,
+      "missed": [],
+      "wrong": [],
+      "ms": 21746,
+      "model": "gpt-5-mini-2025-08-07",
+      "response": [
+        {
+          "raw": "해상운임 USD 7,700 / 40HC",
+          "category": "OF",
+          "amount": 7700,
+          "currency": "USD",
+          "unit": "/ 40HC",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "THC 215,000원 (VAT 별도)",
+          "category": "THC",
+          "amount": 215000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": "VAT 별도",
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위(예: 컨테이너당) 불명"
+        },
+        {
+          "raw": "서류발급비 50,000원",
+          "category": "DOC",
+          "amount": 50000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위(예: 건당/수량) 불명"
+        },
+        {
+          "raw": "AMS USD 35",
+          "category": "AMS",
+          "amount": 35,
+          "currency": "USD",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위(예: 건당/컨테이너당) 불명"
+        },
+        {
+          "raw": "통관수수료 30,000원",
+          "category": "CUSTOMS",
+          "amount": 30000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위(예: 건당/수량) 불명"
+        },
+        {
+          "raw": "운송비(화성→부산) 330,000원 (VAT 포함)",
+          "category": "TRUCK",
+          "amount": 330000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": "VAT 포함",
+          "unreadable": [
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "단위(예: 건당/대수) 불명"
+        }
+      ]
+    },
+    {
+      "id": "Q21",
+      "format": "text",
+      "gt": 4,
+      "pred": 5,
+      "tp": 4,
+      "matchedOptional": 1,
+      "falsePositive": 0,
+      "amountChecked": 4,
+      "amountOk": 4,
+      "curChecked": 4,
+      "curOk": 4,
+      "catOk": 4,
+      "hallucinated": [],
+      "unclear": 0,
+      "unclearFlagged": 0,
+      "clear": 4,
+      "clearFlagged": 1,
+      "missed": [],
+      "wrong": [],
+      "ms": 27979,
+      "model": "gpt-5-mini-2025-08-07",
+      "response": [
+        {
+          "raw": "O/F",
+          "category": "OF",
+          "amount": 0,
+          "currency": "USD",
+          "unit": "/20GP",
+          "includedInOceanFreight": null,
+          "condition": "/20GP",
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "THC",
+          "category": "THC",
+          "amount": 130000,
+          "currency": "KRW",
+          "unit": "/20GP",
+          "includedInOceanFreight": null,
+          "condition": "/20GP",
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "DOC",
+          "category": "DOC",
+          "amount": 40000,
+          "currency": "KRW",
+          "unit": "/BL",
+          "includedInOceanFreight": null,
+          "condition": "/BL",
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "CIS",
+          "category": "OTHER",
+          "amount": 25,
+          "currency": "USD",
+          "unit": "/BL",
+          "includedInOceanFreight": null,
+          "condition": "/BL",
+          "unreadable": [],
+          "needsConfirmation": true,
+          "reason": "카테고리 확인 필요 (CIS의 분류 불분명)"
+        },
+        {
+          "raw": "수입지 비용",
+          "category": "OTHER",
+          "amount": null,
+          "currency": null,
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": "COLLECT",
+          "unreadable": [
+            "amount",
+            "currency",
+            "unit"
+          ],
+          "needsConfirmation": true,
+          "reason": "금액/통화/단위 없음, 수입지 비용은 'COLLECT'로 표기"
+        }
+      ]
+    },
+    {
+      "id": "Q22",
+      "format": "text",
+      "gt": 5,
+      "pred": 6,
+      "tp": 5,
+      "matchedOptional": 1,
+      "falsePositive": 0,
+      "amountChecked": 5,
+      "amountOk": 5,
+      "curChecked": 5,
+      "curOk": 5,
+      "catOk": 5,
+      "hallucinated": [],
+      "unclear": 0,
+      "unclearFlagged": 0,
+      "clear": 5,
+      "clearFlagged": 0,
+      "missed": [],
+      "wrong": [],
+      "ms": 34881,
+      "model": "gpt-5-mini-2025-08-07",
+      "response": [
+        {
+          "raw": "O/F (BAF 별도)",
+          "category": "OF",
+          "amount": 3300,
+          "currency": "USD",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "BAF",
+          "category": "BAF",
+          "amount": 380,
+          "currency": "USD",
+          "unit": null,
+          "includedInOceanFreight": false,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "EBS /40HC",
+          "category": "EBS",
+          "amount": 50,
+          "currency": "USD",
+          "unit": "/40HC",
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "THC",
+          "category": "THC",
+          "amount": 215000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "DOC",
+          "category": "DOC",
+          "amount": 50000,
+          "currency": "KRW",
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": null,
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        },
+        {
+          "raw": "CFS 해당없음",
+          "category": "HANDLING",
+          "amount": null,
+          "currency": null,
+          "unit": null,
+          "includedInOceanFreight": null,
+          "condition": "해당없음",
+          "unreadable": [
+            "amount",
+            "currency"
+          ],
+          "needsConfirmation": true,
+          "reason": "해당없음으로 금액 미기재"
+        }
+      ]
+    },
+    {
+      "id": "Q23",
+      "format": "text",
+      "gt": 7,
+      "pred": 4,
+      "tp": 4,
+      "matchedOptional": 0,
+      "falsePositive": 0,
+      "amountChecked": 4,
+      "amountOk": 1,
+      "curChecked": 4,
+      "curOk": 4,
+      "catOk": 4,
+      "hallucinated": [],
+      "unclear": 0,
+      "unclearFlagged": 0,
+      "clear": 4,
+      "clearFlagged": 3,
+      "missed": [
+        "Ocean freight 40HC",
+        "BAF 40HC",
+        "THC 40HC"
+      ],
+      "wrong": [
+        "Ocean freight 20GP: OF null USD",
+        "BAF 20GP: BAF null USD",
+        "THC 20GP: THC null KRW"
+      ],
+      "ms": 25234,
+      "model": "gpt-5-mini-2025-08-07",
+      "response": [
+        {
+          "raw": "Ocean freight",
+          "category": "OF",
+          "amount": null,
+          "currency": "USD",
+          "unit": "150/20GP & 280/40HC",
+          "includedInOceanFreight": null,
+          "condition": "per 20GP & per 40HC",
+          "unreadable": [
+            "amount"
+          ],
+          "needsConfirmation": true,
+          "reason": "20GP/40HC 각각 다른 요율로 단일 금액 기재 불가"
+        },
+        {
+          "raw": "BAF",
+          "category": "BAF",
+          "amount": null,
+          "currency": "USD",
+          "unit": "60/20GP & 120/40HC",
+          "includedInOceanFreight": null,
+          "condition": "per 20GP & per 40HC",
+          "unreadable": [
+            "amount"
+          ],
+          "needsConfirmation": true,
+          "reason": "20GP/40HC 각각 다른 요율로 단일 금액 기재 불가"
+        },
+        {
+          "raw": "THC",
+          "category": "THC",
+          "amount": null,
+          "currency": "KRW",
+          "unit": "130,000/20GP & 180,000/40HC",
+          "includedInOceanFreight": null,
+          "condition": "per 20GP & per 40HC",
+          "unreadable": [
+            "amount"
+          ],
+          "needsConfirmation": true,
+          "reason": "20GP/40HC 각각 다른 요율로 단일 금액 기재 불가"
+        },
+        {
+          "raw": "DOC",
+          "category": "DOC",
+          "amount": 50000,
+          "currency": "KRW",
+          "unit": "BL",
+          "includedInOceanFreight": null,
+          "condition": "per BL",
+          "unreadable": [],
+          "needsConfirmation": false,
+          "reason": null
+        }
+      ]
+    }
+  ]
+}
