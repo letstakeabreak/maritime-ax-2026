@@ -201,7 +201,7 @@ function tariffHTML(t, q) {
   if (!t.ok) return `<p>해양수산부 공표운임(data.go.kr 15029607)을 불러오지 못했어요. ${escapeHTML(t.message || "")}${t.code ? ` (코드 ${escapeHTML(t.code)})` : ""} ${fallback}</p>`;
   if (!t.items.length) return `<p>최근 1년 동안 ${escapeHTML(t.pol)}→${escapeHTML(t.pod)} 공표운임이 조회되지 않았어요. ${fallback}</p>`;
   const rows = t.items.slice(0, 5).map((r) => `<li><strong>${escapeHTML(r.company)}</strong> ${escapeHTML(r.annDe)} 공표, ${escapeHTML(r.container || "규격 미상")}<br>${r.fees.map((f) => `${escapeHTML(f.code)} ${escapeHTML(f.amount.toLocaleString("en-US"))} ${escapeHTML(f.cur)}`).join(", ") || "요금 칸이 비어 있어요"}</li>`).join("");
-  return `<p>해양수산부 공표운임에서 ${escapeHTML(t.pol)}→${escapeHTML(t.pod)} 구간 ${t.totalCount}건을 찾았어요. 최근 공표 ${Math.min(5, t.items.length)}건을 참고로 보여 줘요. 선사가 신고한 요금이며 실제 거래 운임과 다를 수 있어요. ${fallback}</p><ul class="tariff-list">${rows}</ul>`;
+  return `<p>해양수산부 공표운임에서 ${escapeHTML(t.pol)}→${escapeHTML(t.pod)} 구간 ${t.windowDays ? `최근 ${t.windowDays}일 공표 ` : ""}${t.totalCount}건을 찾았어요. 최근 공표 ${Math.min(5, t.items.length)}건을 참고로 보여 줘요. 선사가 신고한 요금이며 실제 거래 운임과 다를 수 있어요. ${fallback}</p><ul class="tariff-list">${rows}</ul>`;
 }
 
 async function loadTariff(q) {
@@ -229,6 +229,7 @@ const readBase64 = (file) => new Promise((resolve, reject) => {
 
 async function runExtract() {
   const status = $("#extract-status"), button = $("#extract-run");
+  if (!$("#extract-consent").checked) { status.textContent = "외부 AI 전송에 동의해야 읽을 수 있어요."; button.disabled = true; return; }
   const text = $("#extract-text").value.trim(), file = $("#extract-file").files && $("#extract-file").files[0];
   if (!text && !file) { status.textContent = "견적 내용을 붙여넣거나 파일을 골라 주세요."; return; }
   if (text.length > 20000) { status.textContent = "붙여넣은 글은 20,000자 이하로 줄여 주세요."; return; }
@@ -249,7 +250,7 @@ async function runExtract() {
   } catch {
     status.textContent = "AI 서버에 연결하지 못했어요. 예시 견적은 계속 볼 수 있어요.";
   } finally {
-    button.disabled = false;
+    button.disabled = !$("#extract-consent").checked;
   }
 }
 
@@ -274,6 +275,9 @@ $("#copy").addEventListener("click", async () => {
   }
 });
 $("#extract-run").addEventListener("click", runExtract);
+// 동의 전에는 견적을 외부 AI로 보내지 않는다.
+$("#extract-run").disabled = !$("#extract-consent").checked;
+$("#extract-consent").addEventListener("change", (e) => { $("#extract-run").disabled = !e.target.checked; });
 $("#programs").innerHTML = REF.programs.map((p) => `<li><h3>${p.name}</h3><p>${p.note}</p></li>`).join("");
 const q0 = new URLSearchParams(location.search).get("q");
 load(Object.hasOwn(SAMPLES, q0) ? q0 : "normal");

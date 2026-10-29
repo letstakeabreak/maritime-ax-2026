@@ -130,7 +130,7 @@ test("AI result feeds the existing calculation without inventing missing values"
   assert.equal(quote.items[3].amount, 0);
   assert.equal(quote.items[3].confirm, true);
   assert.equal(result.total, 3200 * 1380 + 210000);
-  assert.equal(result.ofr.bench, 8229);
+  assert.equal(result.ofr.bench, 8267);
   assert.ok(quote.review.some((r) => /환율이 적혀 있지 않아/.test(r)));
   assert.ok(quote.review.some((r) => /Doc fee/.test(r)));
   assert.ok(quote.review.some((r) => /freeTime/.test(r)));
@@ -162,4 +162,25 @@ test("tariff panel states failure honestly and keeps example values", () => {
   assert.doesNotMatch(shown, /<b>x<\/b>/);
   assert.equal(vm.runInContext("portOf('Los Angeles, CA').code", context), "USLAX");
   assert.equal(vm.runInContext("portOf('부산 신항').code", context), "KRPUS");
+});
+
+test("tariff widens an empty 90-day window and merges the first and last pages so the newest rows come first", async () => {
+  const row = (no, de) => `<item><annNo>${no}</annNo><annDe>${de}</annDe><cychgOfCurCd>USD</cychgOfCurCd><cychgOf>1000</cychgOf></item>`;
+  const xml = (items, total) => `<response><header><resultCode>00</resultCode></header><body><items>${items}</items><totalCount>${total}</totalCount></body></response>`;
+  const calls = [];
+  const fetchImpl = async (url) => {
+    calls.push(url);
+    const u = new URL(url);
+    const days = (Date.parse("2026-10-30") - Date.parse(u.searchParams.get("annDeFr").replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3"))) / 864e5;
+    if (days === 90) return { ok: true, status: 200, text: async () => xml("", 0) };
+    // 오래된 순으로 오는 응답: 첫 쪽은 오래된 행, 마지막 쪽에 최신 행
+    const items = u.searchParams.get("pageNo") === "1" ? row("old", "20260501") : row("new", "20260920");
+    return { ok: true, status: 200, text: async () => xml(items, 120) };
+  };
+  const r = await tariff.fetchTariff({ pol: "KRPUS", pod: "USLAX", key: "k", fetchImpl, now: new Date("2026-10-30T00:00:00Z") });
+  assert.equal(r.ok, true);
+  assert.equal(r.windowDays, 180);
+  assert.deepEqual(r.items.map((i) => i.annNo), ["new", "old"]);
+  assert.equal(calls.length, 3);
+  assert.match(calls[2], /pageNo=3/);
 });

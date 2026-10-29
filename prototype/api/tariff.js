@@ -25,25 +25,44 @@ function parseTariffXml(xml) {
 }
 
 const ymd = (d) => d.toISOString().slice(0, 10).replace(/-/g, "");
+const PAGE = 50;
+const WINDOWS = [90, 180, 365];
 
+// API는 공표일 순서를 보장하지 않고 한 번에 50건까지만 준다. 최근 90일부터 조회하고 비면 180일, 365일로 넓힌다.
+// 50건이 넘으면 첫 쪽과 마지막 쪽을 함께 받아 공표일 순으로 합친다. 어느 방향으로 정렬되어 와도 최신 행이 들어온다.
 async function fetchTariff({ pol, pod, key, fetchImpl = fetch, now = new Date() }) {
   if (!key) return { ok: false, reason: "no-key", message: "서버에 인증키가 설정되어 있지 않습니다." };
-  const params = new URLSearchParams({ pageNo: "1", numOfRows: "50", annGb: "v2", shipngPrtCd: pol, landngPrtCd: pod,
-    annDeFr: ymd(new Date(now - 365 * 864e5)), annDeTo: ymd(now) });
   // 포털 인증키는 이미 인코딩된 값과 원문 값이 있어, 인코딩된 키는 그대로 붙인다.
   key = key.trim();
   const encodedKey = /%[0-9A-Fa-f]{2}/.test(key) ? key : encodeURIComponent(key);
-  let response;
-  try {
-    response = await fetchImpl(`${ENDPOINT}?serviceKey=${encodedKey}&${params}`, { signal: AbortSignal.timeout(9000) });
-  } catch (e) {
-    return { ok: false, reason: "network", message: "공공데이터포털에 연결하지 못했습니다." };
+  const page = async (days, pageNo) => {
+    const params = new URLSearchParams({ pageNo: String(pageNo), numOfRows: String(PAGE), annGb: "v2", shipngPrtCd: pol, landngPrtCd: pod,
+      annDeFr: ymd(new Date(now - days * 864e5)), annDeTo: ymd(now) });
+    let response;
+    try {
+      response = await fetchImpl(`${ENDPOINT}?serviceKey=${encodedKey}&${params}`, { signal: AbortSignal.timeout(9000) });
+    } catch (e) {
+      return { ok: false, reason: "network", message: "공공데이터포털에 연결하지 못했습니다." };
+    }
+    const text = await response.text();
+    if (!response.ok && !/<\w/.test(text)) return { ok: false, reason: "http", code: String(response.status), message: `HTTP ${response.status}` };
+    return parseTariffXml(text);
+  };
+  let first;
+  for (const days of WINDOWS) {
+    first = await page(days, 1);
+    if (!first.ok) return first;
+    if (!first.totalCount) continue;
+    const lastNo = Math.ceil(first.totalCount / PAGE);
+    if (lastNo > 1) {
+      const last = await page(days, lastNo);
+      if (last.ok) first.items = first.items.concat(last.items);
+    }
+    first.windowDays = days;
+    break;
   }
-  const text = await response.text();
-  if (!response.ok && !/<\w/.test(text)) return { ok: false, reason: "http", code: String(response.status), message: `HTTP ${response.status}` };
-  const parsed = parseTariffXml(text);
-  if (parsed.ok) parsed.items.sort((a, b) => (b.annDe || "").localeCompare(a.annDe || ""));
-  return parsed;
+  first.items.sort((a, b) => (b.annDe || "").localeCompare(a.annDe || ""));
+  return first;
 }
 
 async function handler(req, res) {

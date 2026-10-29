@@ -69,7 +69,7 @@ test("B compares ocean freight plus LSS, without changing the quoted total", () 
   const app = loadPrototype("?q=highOF");
   const { result } = app.state();
   assert.equal(result.ofr.amount, 4720);
-  assert.equal(result.ofr.r, 4720 / 3475);
+  assert.equal(result.ofr.r, 4720 / 3508);
   assert.equal(result.total, 6864500);
 });
 
@@ -108,7 +108,7 @@ test("a KRW surcharge is converted to USD for comparison", () => {
 test("a surcharge can move a quote above the 110% warning threshold", () => {
   const app = loadPrototype();
   const quote = app.sample("highOF");
-  quote.items.find((item) => item.code === "OF").amount = 3800;
+  quote.items.find((item) => item.code === "OF").amount = 3840;
   quote.items.find((item) => item.code === "LSS").amount = 0;
   const before = app.diagnose(quote);
   quote.items.find((item) => item.code === "LSS").amount = 50;
@@ -275,3 +275,21 @@ for (const [name, navigator] of [
     assert.doesNotMatch(app.text("#copy-status"), /복사했어요/);
   });
 }
+
+test("AI reading stays disabled and sends nothing until the external AI consent is checked", async () => {
+  const html = fs.readFileSync(path.join(prototype, "index.html"), "utf8");
+  assert.match(html, /<input id="extract-consent" type="checkbox" required>/);
+  assert.match(html, /id="extract-run" class="primary" disabled/);
+  const app = loadPrototype();
+  const run = app.node("#extract-run"), consent = app.node("#extract-consent");
+  assert.equal(run.disabled, true);
+  await run.listeners.click();
+  // fetch가 불렸다면 연결 실패 문구가 남는다. 동의 안내가 남아야 전송 전에 멈춘 것이다.
+  assert.match(app.text("#extract-status"), /동의해야/);
+  consent.checked = true;
+  app.dispatch("#extract-consent", "change");
+  assert.equal(run.disabled, false);
+  consent.checked = false;
+  app.dispatch("#extract-consent", "change");
+  assert.equal(run.disabled, true);
+});

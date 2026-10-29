@@ -1,18 +1,18 @@
 // 프로토타입 데이터. KCCI만 실제 발표값이고 나머지는 예시값이다.
-// KCCI 4개 항로는 2026-10-19 KOBC 공식 표와 대조. 검증 근거: docs/research/04-verification-evidence.md
+// KCCI 4개 항로는 2026-10-26 KOBC 공식 표와 대조. 검증 근거: docs/research/04-verification-evidence.md
 window.REF = {
   kcci: {
-    asOf: "2026-10-19",
+    asOf: "2026-10-26",
     unit: "USD / 40ft",
-    source: "KOBC KCCI 공식 항로별 운임 표(2026-10-19)",
+    source: "KOBC KCCI 공식 항로별 운임 표(2026-10-26)",
     sourceUrl: "https://kobc.or.kr/ebz/shippinginfo/kcci/gridList.do?mId=0304000000",
     standardsUrl: "https://kobc.or.kr/ebz/common/file/KCCI_Standards.pdf",
     includedCodes: ["OF", "BAF", "CAF", "LSS", "EBS"],
     routes: {
-      "북미 서안": 8229,
-      "북미 동안": 11590,
-      "북유럽": 3475,
-      "지중해": 3835,
+      "북미 서안": 8267,
+      "북미 동안": 11572,
+      "북유럽": 3508,
+      "지중해": 3945,
     },
   },
   // KRW, 40ft 기준 예시 범위. 실제 선사 공표 요금은 아직 연동하지 않았다.
