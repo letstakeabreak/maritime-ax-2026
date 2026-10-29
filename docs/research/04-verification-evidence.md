@@ -96,3 +96,9 @@ git diff --check
 ## 6. 후속 디자인 적용
 
 위 14개 테스트와 배포 전 상태는 계산 오류 정정 시점의 기록이다. 이후 승인된 Figma 화면을 서비스에 옮기고 테스트를 27개로 늘렸다. 최신 화면과 배포 확인은 [디자인 적용 기록](05-service-design-release.md)에 정리했다. 기획서의 A/B/C 캡처도 최신 구현으로 갱신했다.
+
+## 6. 실제 API 연동 시도 (2026-10-30)
+
+- 15029607 상세 페이지의 명세에서 호출 주소 `https://apis.data.go.kr/1192000/CychgFrghtOut4/Info4`와 요청변수(ServiceKey, pageNo, numOfRows 최대 50, annNo, annGb, annDeFr, annDeTo, fermnDeFr, fermnDeTo, shipngPrtCd, landngPrtCd 등)를 확인했습니다. 응답 항목에는 OF, BAF, CAF, LSS, EBS, OTHC, DTHC, 서류발급비, D/O, 부두사용료, 봉인료와 각 통화가 있습니다.
+- Preview 배포에서 Vercel에 등록된 인증키로 부산(KRPUS)에서 로스앤젤레스(USLAX), 로테르담(NLRTM) 구간을 호출했습니다. 두 호출 모두 `SERVICE_KEY_IS_NOT_REGISTERED_ERROR`(등록되지 않은 서비스키, 코드 30)를 받았습니다. 따라서 공표운임의 실제 응답, 항로 충족 여부, 최신성은 아직 확인하지 못했습니다.
+- 같은 Preview에서 OpenAI 견적 읽기는 붙여넣은 가상 견적 1건(7개 항목)을 구조화했습니다. `BAF incl.`은 포함으로, `Handling at cost`는 금액 없음과 확인 필요로 표시되었고 금액을 만들어 내지 않았습니다. 한 건의 시연이며 추출 정확도를 검증한 결과는 아닙니다.
