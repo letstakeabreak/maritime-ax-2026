@@ -100,5 +100,8 @@ git diff --check
 ## 6. 실제 API 연동 시도 (2026-10-30)
 
 - 15029607 상세 페이지의 명세에서 호출 주소 `https://apis.data.go.kr/1192000/CychgFrghtOut4/Info4`와 요청변수(ServiceKey, pageNo, numOfRows 최대 50, annNo, annGb, annDeFr, annDeTo, fermnDeFr, fermnDeTo, shipngPrtCd, landngPrtCd 등)를 확인했습니다. 응답 항목에는 OF, BAF, CAF, LSS, EBS, OTHC, DTHC, 서류발급비, D/O, 부두사용료, 봉인료와 각 통화가 있습니다.
-- Preview 배포에서 Vercel에 등록된 인증키로 부산(KRPUS)에서 로스앤젤레스(USLAX), 로테르담(NLRTM) 구간을 호출했습니다. 두 호출 모두 `SERVICE_KEY_IS_NOT_REGISTERED_ERROR`(등록되지 않은 서비스키, 코드 30)를 받았습니다. 따라서 공표운임의 실제 응답, 항로 충족 여부, 최신성은 아직 확인하지 못했습니다.
+- Preview 배포에서 Vercel에 등록된 인증키로 부산(KRPUS)에서 로스앤젤레스(USLAX), 로테르담(NLRTM) 구간을 호출했습니다. 두 호출 모두 `SERVICE_KEY_IS_NOT_REGISTERED_ERROR`(등록되지 않은 서비스키, 코드 30)를 받았습니다. 같은 날 15029607 개발계정 활용신청이 자동승인된 뒤 다시 호출해 실제 응답을 받았습니다.
+- 부산(KRPUS)에서 로스앤젤레스(USLAX): 1,425건. 예를 들어 2025-11-05 공표, 오션네트워크익스프레스코리아, 40 feet dry, OF 2,350 USD, LSS 6 USD, OTHC 210,000 KRW, 서류발급비 50,000 KRW, 부두사용료 8,858 KRW, 봉인료 10,000 KRW입니다.
+- 부산(KRPUS)에서 로테르담(NLRTM): 1,168건. 예를 들어 2025-11-21 공표, 같은 선사, 40 feet dry, OF 2,037 USD, BAF 260 USD, OTHC 210,000 KRW입니다.
+- 받은 행의 운송단위는 TEU로 표기되어 있었습니다. 첫 50건 안에서만 공표일 순으로 정렬하므로 화면의 행이 가장 최근 공표라고 보장하지 않습니다. 공표운임은 선사가 신고한 요금이며 실거래 운임과 다를 수 있어, 확인 항목 판단에는 쓰지 않고 참고로만 보여 줍니다.
 - 같은 Preview에서 OpenAI 견적 읽기는 붙여넣은 가상 견적 1건(7개 항목)을 구조화했습니다. `BAF incl.`은 포함으로, `Handling at cost`는 금액 없음과 확인 필요로 표시되었고 금액을 만들어 내지 않았습니다. 한 건의 시연이며 추출 정확도를 검증한 결과는 아닙니다.
