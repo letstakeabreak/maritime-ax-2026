@@ -92,5 +92,25 @@ window.SAMPLES = {
 window.CODE_LABEL = {
   OF: "해상운임", BAF: "유류할증료", CAF: "통화할증료", LSS: "저유황유할증료", EBS: "긴급유류할증료", THC: "터미널 작업비", DOC: "서류발급비", BLFEE: "B/L 발급비",
   WHARFAGE: "부두사용료", SEAL: "봉인비", AMS: "미국 사전신고", ENS: "EU 사전신고",
-  HANDLING: "포워더 취급수수료", SERVICE: "서비스 수수료", CUSTOMS: "통관수수료", TRUCK: "내륙운송",
+  HANDLING: "포워더 취급수수료", SERVICE: "서비스 수수료", CUSTOMS: "통관수수료", TRUCK: "내륙운송", OTHER: "기타 비용",
 };
+
+// 공표운임 조회(data.go.kr 15029607)용 UN/LOCODE와 KCCI 항로. 이름은 AI가 읽은 항구명과 대조한다.
+window.PORTS = [
+  { code: "KRPUS", names: ["부산", "busan", "pusan"] },
+  { code: "KRINC", names: ["인천", "incheon"] },
+  { code: "KRKAN", names: ["광양", "gwangyang", "kwangyang"] },
+  { code: "KRPTK", names: ["평택", "pyeongtaek"] },
+  { code: "USLAX", names: ["로스앤젤레스", "los angeles", "la"], route: "북미 서안" },
+  { code: "USLGB", names: ["롱비치", "long beach"], route: "북미 서안" },
+  { code: "USOAK", names: ["오클랜드", "oakland"], route: "북미 서안" },
+  { code: "USSEA", names: ["시애틀", "seattle"], route: "북미 서안" },
+  { code: "USNYC", names: ["뉴욕", "new york"], route: "북미 동안" },
+  { code: "USSAV", names: ["서배너", "사바나", "savannah"], route: "북미 동안" },
+  { code: "NLRTM", names: ["로테르담", "rotterdam"], route: "북유럽" },
+  { code: "DEHAM", names: ["함부르크", "hamburg"], route: "북유럽" },
+  { code: "BEANR", names: ["앤트워프", "antwerp"], route: "북유럽" },
+  { code: "ITGOA", names: ["제노바", "genoa"], route: "지중해" },
+  { code: "ESBCN", names: ["바르셀로나", "barcelona"], route: "지중해" },
+  { code: "ESVLC", names: ["발렌시아", "valencia"], route: "지중해" },
+];

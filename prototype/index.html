@@ -6,7 +6,7 @@
   <title>운임렌즈 — 받은 견적을 살펴보세요</title>
   <meta name="description" content="해상운임 견적에서 포워더에게 물어볼 내용을 확인하세요. KOBC 운임지수와 예시 견적으로 살펴보는 프로토타입입니다.">
   <link rel="stylesheet" href="fonts/pretendard.css">
-  <link rel="stylesheet" href="style.css?v=20261025-1">
+  <link rel="stylesheet" href="style.css?v=20261030-1">
 </head>
 <body>
   <a class="skip-link" href="#main">견적 결과로 건너뛰기</a>
@@ -14,7 +14,7 @@
     <div class="container hero-inner">
       <div class="brand-row">
         <a class="brand" href="./" aria-label="운임렌즈 처음으로">운임<span>렌즈</span></a>
-        <p class="demo-note">예시로 만든 견적이에요.<br class="mobile-only"> AI는 아직 연결하지 않았어요.</p>
+        <p class="demo-note" id="demo-note">예시로 만든 견적이에요. 내 견적은 AI로 읽을 수 있어요.</p>
       </div>
       <div class="hero-content">
         <div class="hero-title">
@@ -26,6 +26,7 @@
           <button type="button" class="chip" data-key="normal">A 운임이 비슷해요</button>
           <button type="button" class="chip" data-key="highOF">B 운임이 높아요</button>
           <button type="button" class="chip" data-key="dupMissing">C 확인할 게 있어요</button>
+          <button type="button" class="chip chip-ai" data-open="extract-dialog">견적 붙여넣기 / 파일 올리기</button>
         </div>
       </div>
     </div>
@@ -36,6 +37,7 @@
       <h2 id="summary-title"></h2>
       <div class="market" id="gauge"></div>
       <p class="market-date" id="market-date"></p>
+      <div id="ai-note" class="ai-note" role="status" hidden></div>
       <p class="summary-note"><span class="desktop-only">이 결과만으로 </span>잘못 청구된 비용이라고 단정할 수는 없어요.</p>
     </section>
     <div class="result-layout">
@@ -43,7 +45,7 @@
         <h2 id="findings-title">포워더에게 물어보세요</h2>
         <p class="muted">항목을 누르면 자세한 이유를 볼 수 있어요.</p>
         <ul id="findings" class="findings"></ul>
-        <p class="example-note">요금은 예시값과 비교했어요.<br class="mobile-only"> 실제 선사 요금은 아직 반영하지 않았어요.</p>
+        <p class="example-note">부대요금은 예시값과 비교했어요.<br class="mobile-only"> 해양수산부 공표운임은 기준 보기에서 참고로 보여 줘요.</p>
         <button type="button" class="primary" data-open="memo-dialog">물어볼 내용 보기</button>
       </section>
       <aside class="details-column" aria-label="견적과 비교 자료">
@@ -70,6 +72,7 @@
       <p>운임지수는 지역별 참고값이에요. 이 수치만으로 견적이 적정한지는 판단할 수 없어요.</p>
       <div class="mobile-sample-picker mobile-only">
         <label for="sample-select">다른 예시 견적 보기</label>
+        <button type="button" class="secondary" data-open="extract-dialog">견적 붙여넣기 / 파일 올리기</button>
         <select id="sample-select"><option value="normal">A 운임이 비슷해요</option><option value="highOF">B 운임이 높아요</option><option value="dupMissing">C 확인할 게 있어요</option></select>
       </div>
     </footer>
@@ -99,9 +102,22 @@
   <dialog id="basis-dialog" class="detail-dialog" aria-labelledby="basis-title">
     <div class="dialog-heading"><h2 id="basis-title" tabindex="-1">어떤 기준으로 비교했나요?</h2><button class="close" type="button" data-close aria-label="닫기">×</button></div>
     <div id="basis-content" class="prose"></div>
+    <h3>해양수산부 공표운임</h3>
+    <div id="tariff" class="prose" aria-live="polite"></div>
     <a href="https://kobc.or.kr/ebz/common/file/KCCI_Standards.pdf" target="_blank" rel="noopener noreferrer">KOBC에서 KCCI 산출 기준 읽기 ↗</a>
     <a href="https://kobc.or.kr/ebz/shippinginfo/kcci/gridList.do?mId=0304000000" target="_blank" rel="noopener noreferrer">KOBC에서 항로별 운임 보기 ↗</a>
     <button type="button" class="action-row" data-open="program-dialog"><span class="row-copy"><strong>지원사업도 살펴보세요</strong><span class="row-detail">수출바우처와 물류비, 전용 선복 지원을 알아보세요.</span></span><img class="chevron" src="assets/chevron.svg" width="18" height="18" alt=""></button>
+  </dialog>
+  <dialog id="extract-dialog" class="detail-dialog" aria-labelledby="extract-title">
+    <div class="dialog-heading"><h2 id="extract-title" tabindex="-1">받은 견적을 AI로 읽어요</h2><button class="close" type="button" data-close aria-label="닫기">×</button></div>
+    <p class="muted">견적 글을 붙여넣거나 이미지(PNG, JPG, WEBP), PDF를 3MB까지 올려 주세요. AI는 비용 이름과 금액만 옮기고, 합계와 비교는 정해 둔 규칙으로 계산해요. 읽지 못한 칸은 비워 두고 확인 목록에 남겨요.</p>
+    <label class="muted" for="extract-text">견적 내용</label>
+    <textarea id="extract-text" rows="10" maxlength="20000" placeholder="예: Ocean Freight USD 3,200 / 40HC, THC KRW 210,000 ..."></textarea>
+    <label class="muted" for="extract-file">파일 올리기</label>
+    <input id="extract-file" type="file" accept="image/png,image/jpeg,image/webp,application/pdf">
+    <p class="muted">입력한 내용은 OpenAI API로 보내 읽고, 이 서비스에는 저장하지 않아요. 개인정보와 계약번호는 지우고 올려 주세요.</p>
+    <div class="dialog-actions"><button type="button" class="secondary" data-close>닫기</button><button type="button" id="extract-run" class="primary">AI로 읽기</button></div>
+    <p id="extract-status" class="status" role="status"></p>
   </dialog>
   <dialog id="program-dialog" class="detail-dialog" aria-labelledby="program-title">
     <div class="dialog-heading"><h2 id="program-title" tabindex="-1">지원사업도 살펴보세요</h2><button class="close" type="button" data-close aria-label="닫기">×</button></div>
@@ -109,7 +125,7 @@
     <p class="muted">신청 대상과 모집 기간, 지원 한도는 각 공고문에서 확인해 주세요. 이 화면에서는 신청 자격을 판단하지 않아요.</p>
   </dialog>
   <noscript>견적을 살펴보려면 브라우저에서 JavaScript를 켜 주세요.</noscript>
-  <script src="data.js?v=20261025-1"></script>
-  <script src="app.js?v=20261025-1"></script>
+  <script src="data.js?v=20261030-1"></script>
+  <script src="app.js?v=20261030-1"></script>
 </body>
 </html>
