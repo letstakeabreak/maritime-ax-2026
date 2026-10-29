@@ -36,7 +36,7 @@ const SCHEMA = {
 
 const INSTRUCTIONS = `You read Korean/English ocean freight quotes for small exporters and return ONLY what is written.
 Rules:
-- One entry per charge line. Keep "raw" exactly as written in the quote (original language and spelling).
+- One entry per charge line. "raw" is the charge name exactly as written (original language and spelling), without the amount or currency.
 - category: map to the closest code. OF=ocean freight, BAF/CAF/LSS/EBS=freight surcharges, THC=terminal handling, DOC=documentation fee, BLFEE=B/L issuance fee, WHARFAGE, SEAL, AMS/ENS=advance filing, HANDLING=forwarder handling, SERVICE=service charge, CUSTOMS=customs clearance, TRUCK=inland trucking. Use OTHER when unsure.
 - amount/currency/unit: copy as written. currency as ISO code (USD, KRW, EUR...). Never invent, estimate, convert or sum. If a value is missing or illegible use null, list the field name in "unreadable", set needsConfirmation=true and give a short Korean reason.
 - includedInOceanFreight: true only if the quote says the charge is included in O/F (e.g. "incl.", "포함"), false only if it says separate/excluded, otherwise null.

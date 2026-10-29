@@ -31,6 +31,7 @@ async function fetchTariff({ pol, pod, key, fetchImpl = fetch, now = new Date() 
   const params = new URLSearchParams({ pageNo: "1", numOfRows: "50", annGb: "v2", shipngPrtCd: pol, landngPrtCd: pod,
     annDeFr: ymd(new Date(now - 365 * 864e5)), annDeTo: ymd(now) });
   // 포털 인증키는 이미 인코딩된 값과 원문 값이 있어, 인코딩된 키는 그대로 붙인다.
+  key = key.trim();
   const encodedKey = /%[0-9A-Fa-f]{2}/.test(key) ? key : encodeURIComponent(key);
   let response;
   try {
