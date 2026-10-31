@@ -281,3 +281,24 @@ $("#extract-consent").addEventListener("change", (e) => { $("#extract-run").disa
 $("#programs").innerHTML = REF.programs.map((p) => `<li><h3>${p.name}</h3><p>${p.note}</p></li>`).join("");
 const q0 = new URLSearchParams(location.search).get("q");
 load(Object.hasOwn(SAMPLES, q0) ? q0 : "normal");
+
+// Intro video popup (YouTube, unlisted). Set the id after upload; empty keeps it off.
+(function () {
+  const VIDEO_ID = 'osi9ls0e1tE';
+  const KEY = 'unim-video-hidden';
+  if (!VIDEO_ID || typeof document.getElementById !== 'function') return;
+  const modal = document.getElementById('video-modal');
+  const iframe = document.getElementById('video-iframe');
+  if (!modal) return;
+  try { if (localStorage.getItem(KEY)) return; } catch (e) {}
+  const close = () => { modal.hidden = true; iframe.src = ''; };
+  iframe.src = 'https://www.youtube-nocookie.com/embed/' + VIDEO_ID + '?autoplay=1&mute=1&rel=0&playsinline=1';
+  modal.hidden = false;
+  document.getElementById('video-close').addEventListener('click', close);
+  document.getElementById('video-hide').addEventListener('click', () => {
+    try { localStorage.setItem(KEY, '1'); } catch (e) {}
+    close();
+  });
+  modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) close(); });
+})();

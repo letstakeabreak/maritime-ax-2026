@@ -5,15 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>운임렌즈 — 받은 견적을 살펴보세요</title>
   <meta name="description" content="해상운임 견적에서 포워더에게 물어볼 내용을 확인하세요. KOBC 운임지수와 예시 견적으로 살펴보는 프로토타입입니다.">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="stylesheet" href="fonts/pretendard.css">
-  <link rel="stylesheet" href="style.css?v=20261030-1">
+  <link rel="stylesheet" href="style.css?v=20261031-1">
 </head>
 <body>
   <a class="skip-link" href="#main">견적 결과로 건너뛰기</a>
   <header class="hero">
     <div class="container hero-inner">
       <div class="brand-row">
-        <a class="brand" href="./" aria-label="운임렌즈 처음으로">운임<span>렌즈</span></a>
+        <a class="brand" href="./" aria-label="운임렌즈 처음으로"><img class="brand-icon" src="assets/logo-64.png" alt="" width="28" height="28">운임<span>렌즈</span></a>
         <p class="demo-note" id="demo-note">예시로 만든 견적이에요. 내 견적은 AI로 읽을 수 있어요.</p>
       </div>
       <div class="hero-content">
@@ -124,8 +126,17 @@
     <ul id="programs" class="programs"></ul>
     <p class="muted">신청 대상과 모집 기간, 지원 한도는 각 공고문에서 확인해 주세요. 이 화면에서는 신청 자격을 판단하지 않아요.</p>
   </dialog>
+  <div class="video-modal" id="video-modal" hidden role="dialog" aria-modal="true" aria-label="운임렌즈 소개 영상">
+    <div class="video-dialog">
+      <div class="video-frame"><iframe id="video-iframe" title="운임렌즈 소개 영상" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+      <div class="video-actions">
+        <button type="button" class="video-hide" id="video-hide">다시 보지 않기</button>
+        <button type="button" class="video-close" id="video-close">닫기</button>
+      </div>
+    </div>
+  </div>
   <noscript>견적을 살펴보려면 브라우저에서 JavaScript를 켜 주세요.</noscript>
-  <script src="data.js?v=20261030-1"></script>
-  <script src="app.js?v=20261030-1"></script>
+  <script src="data.js?v=20261031-1"></script>
+  <script src="app.js?v=20261031-1"></script>
 </body>
 </html>
